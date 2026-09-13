@@ -2,7 +2,7 @@
   "name": "nethermind",
   "description": "AI-powered network switch management — multi-vendor SSH + serial, Jinja2 templates, AI agent, and security auditing.",
   "tagline": "AI-powered network switch management",
-  "repo_url": "https://github.com/OneByJorah/nethermind",
+  "repo_url": "https://github.com/OneByJorah/NetCore",
   "what_it_does": "Full-stack web app for managing network switches: SSH/serial connections, 50+ config templates, AI chat assistant, workflow engine, security auditing, and config diff/rollback.",
   "quickstart": "[ -f .env.example ] && cp .env.example .env\ndocker compose up -d",
   "features": [
