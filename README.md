@@ -2,13 +2,13 @@
 
 > AI-assisted management console for mixed-vendor network switches — SSH/serial config operations, Jinja2 templating, and security auditing for network engineers and MSPs running heterogeneous fleets.
 
-[![License](https://img.shields.io/github/license/OneByJorah/nethermind?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/nethermind)
-[![Top Language](https://img.shields.io/github/languages/top/OneByJorah/nethermind?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/nethermind)
-[![Stars](https://img.shields.io/github/stars/OneByJorah/nethermind?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/nethermind/stargazers)
-[![Last Commit](https://img.shields.io/github/last-commit/OneByJorah/nethermind?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/nethermind/commits)
+[![License](https://img.shields.io/github/license/OneByJorah/NetCore?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/NetCore)
+[![Top Language](https://img.shields.io/github/languages/top/OneByJorah/NetCore?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/NetCore)
+[![Stars](https://img.shields.io/github/stars/OneByJorah/NetCore?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/NetCore/stargazers)
+[![Last Commit](https://img.shields.io/github/last-commit/OneByJorah/NetCore?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/NetCore/commits)
 
 ![nethermind dashboard](.github/screenshots/main.png)
-[![CI](https://img.shields.io/github/actions/workflow/status/OneByJorah/nethermind/ci.yml?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/nethermind/actions)
+[![CI](https://img.shields.io/github/actions/workflow/status/OneByJorah/NetCore/ci.yml?style=for-the-badge&color=FFB300&labelColor=0a0a09)](https://github.com/OneByJorah/NetCore/actions)
 
 ## What This Is
 
@@ -17,7 +17,7 @@ Managing Cisco, Aruba, Juniper, and Arista gear usually means bouncing between S
 ## Quick Start
 
 ```bash
-git clone https://github.com/OneByJorah/nethermind.git && cd nethermind
+git clone https://github.com/OneByJorah/NetCore.git && cd nethermind
 cp .env.example .env   # set OPENAI_API_KEY and SSH credentials
 docker compose up -d
 ```
@@ -56,7 +56,7 @@ FastAPI, SQLAlchemy, Netmiko, pyserial, Jinja2, OpenAI SDK, Next.js (TypeScript)
 
 ## Contributing
 
-Contributions are welcome — read [CONTRIBUTING.md](CONTRIBUTING.md), then [open an issue](https://github.com/OneByJorah/nethermind/issues).
+Contributions are welcome — read [CONTRIBUTING.md](CONTRIBUTING.md), then [open an issue](https://github.com/OneByJorah/NetCore/issues).
 
 ## License
 
