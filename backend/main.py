@@ -1,8 +1,8 @@
-"""Nethermind — FastAPI Application.
+"""NetCore — FastAPI Application.
 
 AI-powered network switch configuration management with:
 - Multi-vendor SSH config backup
-- AI chat assistant (Nethermind agent) with tool calling
+- AI chat assistant (NetCore agent) with tool calling
 - IRIS-style workflow engine
 - Containerlab topology integration
 - Security auditing (CVE, ACL, AAA, compliance)

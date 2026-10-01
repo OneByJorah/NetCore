@@ -1,4 +1,4 @@
-"""Command-line interface for Nethermind — network switch configuration manager."""
+"""Command-line interface for NetCore — network switch configuration manager."""
 from __future__ import annotations
 
 import argparse

@@ -1,19 +1,19 @@
 <div align="center">
 
-![nethermind banner](docs/assets/banner.svg)
+![NetCore banner](docs/assets/banner.svg)
 
-# nethermind
+# NetCore
 
 **AI-powered network switch management** — multi-vendor SSH and serial access, 50+ Jinja2 templates, an AI agent, and security auditing for mixed network fleets.
 
-<a href="https://github.com/OneByJorah/nethermind/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/nethermind?style=flat-square" alt="Stars"></a>
-<a href="https://github.com/OneByJorah/nethermind/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/nethermind?style=flat-square" alt="Last commit"></a>
-<img src="https://img.shields.io/github/license/OneByJorah/nethermind?style=flat-square" alt="License">
+<a href="https://github.com/OneByJorah/NetCore/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/NetCore?style=flat-square" alt="Stars"></a>
+<a href="https://github.com/OneByJorah/NetCore/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/NetCore?style=flat-square" alt="Last commit"></a>
+<img src="https://img.shields.io/github/license/OneByJorah/NetCore?style=flat-square" alt="License">
 <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
 <img src="https://img.shields.io/badge/Electron-desktop-47848F?style=flat-square&logo=electron&logoColor=white" alt="Electron desktop">
 
-![nethermind screenshot](docs/assets/screenshot.png)
+![NetCore screenshot](docs/assets/screenshot.png)
 
 </div>
 
@@ -21,7 +21,7 @@
 
 ```bash
 git clone https://github.com/OneByJorah/nethermind.git
-cd nethermind
+cd NetCore
 cp .env.example .env   # set OPENAI_API_KEY and SSH credentials
 docker compose up -d
 ```
@@ -30,10 +30,10 @@ Open **http://localhost:3000** for the web UI, or **http://localhost:8000/docs**
 
 ## What This Is
 
-nethermind is a full-stack platform for managing network switches and routers across vendors. It connects over SSH or a serial console, generates configs from templates, parses existing running-configs into structured data, runs AI-assisted operations, and enforces change discipline through an approval workflow. It is built for network engineers and MSPs who manage heterogeneous hardware and want an audit trail behind every change.
+NetCore is a full-stack platform for managing network switches and routers across vendors. It connects over SSH or a serial console, generates configs from templates, parses existing running-configs into structured data, runs AI-assisted operations, and enforces change discipline through an approval workflow. It is built for network engineers and MSPs who manage heterogeneous hardware and want an audit trail behind every change.
 
 > [!NOTE]
-> This project has been consolidated into **hermes-switch-manager**, which is now the actively developed repository. nethermind retains its desktop application and standalone CLI.
+> This project has been consolidated from nethermind legacy codebase. NetCore represents the evolution and modernization of the original nethermind platform.
 
 ## Features
 
@@ -124,7 +124,7 @@ Copy `.env.example` to `.env` and set real values:
 
 ## CLI
 
-nethermind also ships a CLI for quick config operations:
+NetCore also ships a CLI for quick config operations:
 
 ```bash
 cd scripts
@@ -182,7 +182,7 @@ FastAPI, SQLAlchemy, Netmiko, pyserial, Jinja2, OpenAI SDK, Next.js 16 (TypeScri
 ## Project Structure
 
 ```
-nethermind/
+NetCore/
 ├── backend/                 # FastAPI app (routers, services, models)
 ├── frontend/                # Next.js dashboard
 ├── desktop/                 # Electron desktop packaging
@@ -197,7 +197,7 @@ nethermind/
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), then [open an issue](https://github.com/OneByJorah/nethermind/issues) or a pull request.
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), then [open an issue](https://github.com/OneByJorah/NetCore/issues) or a pull request.
 
 ## License
 

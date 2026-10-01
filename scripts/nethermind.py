@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-"""nethermind CLI — Manage network switches from the terminal.
+"""NetCore CLI — Manage network switches from the terminal.
 
 Usage:
-  nethermind switches list [--status=online]
-  nethermind switches add <hostname> <ip> [--vendor=aruba_os]
-  nethermind switches delete <id>
-  nethermind switches health <id>
-  nethermind switches sync <id>
-  nethermind switches commands <id> <command>...
-  nethermind configs list [--switch-id=N]
-  nethermind configs latest <switch-id>
-  nethermind configs diff <backup-a> <backup-b>
-  nethermind security audit <switch-id>
-  nethermind security findings [--switch-id=N]
-  nethermind dashboard stats
-  nethermind dashboard health
-  nethermind server start [--backend-only] [--frontend-only]
-  nethermind server stop
+  NetCore switches list [--status=online]
+  NetCore switches add <hostname> <ip> [--vendor=aruba_os]
+  NetCore switches delete <id>
+  NetCore switches health <id>
+  NetCore switches sync <id>
+  NetCore switches commands <id> <command>...
+  NetCore configs list [--switch-id=N]
+  NetCore configs latest <switch-id>
+  NetCore configs diff <backup-a> <backup-b>
+  NetCore security audit <switch-id>
+  NetCore security findings [--switch-id=N]
+  NetCore dashboard stats
+  NetCore dashboard health
+  NetCore server start [--backend-only] [--frontend-only]
+  NetCore server stop
 """
 import argparse
 import json
@@ -27,7 +27,7 @@ import sys
 import time
 from pathlib import Path
 
-API_BASE = os.environ.get("NETHERMIND_API", "http://localhost:8000")
+API_BASE = os.environ.get("NETCORE_API", "http://localhost:8000")
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -227,7 +227,7 @@ def cmd_server_start(args):
 
 
 def cmd_server_stop(_args):
-    pid_file = Path("/tmp/nethermind-backend.pid")
+    pid_file = Path("/tmp/NetCore-backend.pid")
     if pid_file.exists():
         try:
             pid = int(pid_file.read_text().strip())
@@ -243,7 +243,7 @@ def cmd_server_stop(_args):
 # ── Main ──
 
 def main():
-    parser = argparse.ArgumentParser(description="nethermind — Network Switch Manager CLI")
+    parser = argparse.ArgumentParser(description="NetCore — Network Switch Manager CLI")
     parser.add_argument("--api", help=f"API base URL (default: {API_BASE})")
 
     sub = parser.add_subparsers(dest="command")

@@ -1,4 +1,4 @@
-"""SQLAlchemy models for Nethermind.
+"""SQLAlchemy models for NetCore.
 
 Models: Switch, ConfigBackup, ChatMessage, Workflow, WorkflowStep,
         AuditLog, SecurityFinding, ContainerlabTopology, DeviceMetric.

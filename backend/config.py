@@ -1,4 +1,4 @@
-"""Centralized configuration for Nethermind.
+"""Centralized configuration for NetCore.
 
 Loads settings from environment variables (via .env file or system env).
 """
@@ -9,7 +9,7 @@ from typing import Optional
 
 class Settings(BaseSettings):
     # App
-    APP_NAME: str = "Nethermind"
+    APP_NAME: str = "NetCore"
     VERSION: str = "1.0.0"
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
