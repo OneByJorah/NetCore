@@ -20,7 +20,7 @@
 ## Quick Start
 
 ```bash
-git clone https://github.com/OneByJorah/nethermind.git
+git clone https://github.com/OneByJorah/NetCore.git
 cd NetCore
 cp .env.example .env   # set OPENAI_API_KEY and SSH credentials
 docker compose up -d
