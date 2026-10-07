@@ -17,7 +17,7 @@ from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import List, Optional
 
-logger = logging.getLogger("nethermind.connection")
+logger = logging.getLogger("netcore.connection")
 
 
 # Prompts a ProCurve/Aruba switch shows (we match the trailing '#' or '>').

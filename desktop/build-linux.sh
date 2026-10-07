@@ -1,8 +1,5 @@
-#!/bin/bash
-set -e
-
 echo "============================================"
-echo " Nethermind Desktop - Linux Build"
+echo " NetCore Desktop - Linux Build"
 echo "============================================"
 echo ""
 
@@ -27,7 +24,7 @@ echo ""
 echo "Output files are in: desktop/dist/"
 echo ""
 echo "Available packages:"
-echo "  - Nethermind-*-x64.AppImage  (Universal Linux)"
-echo "  - Nethermind-*-x64.deb       (Debian/Ubuntu)"
-echo "  - Nethermind-*-x64.rpm       (Fedora/RHEL)"
+echo "  - NetCore-*-x64.AppImage  (Universal Linux)"
+echo "  - NetCore-*-x64.deb       (Debian/Ubuntu)"
+echo "  - NetCore-*-x64.rpm       (Fedora/RHEL)"
 echo ""

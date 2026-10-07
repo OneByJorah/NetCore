@@ -17,6 +17,9 @@ Usage:
   NetCore dashboard health
   NetCore server start [--backend-only] [--frontend-only]
   NetCore server stop
+
+Note: SSH passwords should be managed through the .env file for security.
+Use environment variables instead of passing passwords via CLI.
 """
 import argparse
 import json
@@ -79,7 +82,8 @@ def cmd_switch_add(args):
     payload = {"hostname": args.hostname, "ip_address": args.ip, "vendor": args.vendor}
     if args.ssh_port: payload["ssh_port"] = args.ssh_port
     if args.username: payload["ssh_username"] = args.username
-    if args.password: payload["ssh_password"] = args.password
+    # Note: SSH passwords should be managed through the .env file, not passed via CLI
+    # for security reasons. Use environment variables instead.
     result = _req("POST", "/switches/", payload)
     if "error" in result:
         print(f"Error: {result['error']}")
@@ -173,7 +177,7 @@ def cmd_security_findings(args):
 
 def cmd_dashboard_stats(_args):
     data = _req("GET", "/dashboard/stats")
-    print("Nethermind Dashboard Stats:")
+    print("NetCore Dashboard Stats:")
     print(f"  Total Switches:    {data.get('total_switches', 0)}")
     print(f"  Online:            {data.get('online_switches', 0)}")
     print(f"  Offline:           {data.get('offline_switches', 0)}")
@@ -261,7 +265,8 @@ def main():
     sw_add.add_argument("--vendor", default="aruba_os")
     sw_add.add_argument("--ssh-port", type=int, default=22)
     sw_add.add_argument("--username")
-    sw_add.add_argument("--password")
+    # Note: SSH passwords should be managed through the .env file for security
+    # Use environment variables instead of passing passwords via CLI
 
     sw_del = sw_sub.add_parser("delete")
     sw_del.add_argument("id", type=int)

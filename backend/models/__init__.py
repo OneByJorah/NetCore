@@ -68,7 +68,7 @@ class ConfigDiff(Base):
 
 
 class ChatMessage(Base):
-    """Chat history for Nethermind AI agent sessions."""
+    """Chat history for NetCore AI agent sessions."""
     __tablename__ = "chat_messages"
 
     id = Column(Integer, primary_key=True)

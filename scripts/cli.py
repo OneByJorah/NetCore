@@ -212,9 +212,8 @@ def render_config(cfg):
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="nethermind-cli",
-        description="Nethermind — configure Aruba/ProCurve switches via "
-                    "console, SSH or Telnet.")
+        prog="netcore-cli",
+        description="NetCore — configure network switches via console, SSH or Telnet.")
     sub = p.add_subparsers(dest="cmd", required=True)
 
 
