@@ -24,6 +24,12 @@ class Settings(BaseSettings):
             url = url.replace("postgres://", "postgresql://", 1)
         return url
 
+    # OpenAI / AI
+    # These fields are read by config validation below and by
+    # services/nethermind_agent.py; they must remain defined or the app cannot import.
+    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_MODEL: str = "gpt-4o"
+
     # SSH
     SSH_USERNAME: str = ""
     SSH_PASSWORD: str = ""

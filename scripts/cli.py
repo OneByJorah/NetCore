@@ -148,9 +148,7 @@ def cmd_backup(args):
             continue
         clean_lines.append(line)
 
-    config_text = "
-".join(clean_lines).strip() + "
-"
+    config_text = "\n".join(clean_lines).strip() + "\n"
 
     conn.close()
 

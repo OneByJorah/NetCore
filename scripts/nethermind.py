@@ -247,6 +247,7 @@ def cmd_server_stop(_args):
 # ── Main ──
 
 def main():
+    global API_BASE
     parser = argparse.ArgumentParser(description="NetCore — Network Switch Manager CLI")
     parser.add_argument("--api", help=f"API base URL (default: {API_BASE})")
 
@@ -326,7 +327,6 @@ def main():
         parser.print_help()
         return
 
-    global API_BASE
     if args.api:
         API_BASE = args.api
 
