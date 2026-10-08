@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 import argparse
-import json
 import logging
 import sys
 from pathlib import Path
@@ -10,11 +9,10 @@ from pathlib import Path
 # Add backend to path for imports
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "backend"))
 
-from services.switch_config_model import SwitchConfig
-from services.connection import ConnParams, Connection
+from services.config_parser import parse_config, parse_file
+from services.connection import Connection, ConnParams
 from services.deployer import Deployer
-from services.config_parser import parse_file, parse_config
-from services.switch_config_model import standard_access_switch, standard_core_switch
+from services.switch_config_model import SwitchConfig, standard_access_switch, standard_core_switch
 
 
 def cmd_render(args):
@@ -94,10 +92,7 @@ def cmd_upload(args):
     cfg = parse_file(str(file_path))
 
     # Determine output path
-    if args.out:
-        out_path = Path(args.out)
-    else:
-        out_path = file_path.with_suffix('.json')
+    out_path = Path(args.out) if args.out else file_path.with_suffix('.json')
 
     out_path.write_text(cfg.to_json())
     print(f"Saved structured config to {out_path}")
@@ -128,7 +123,7 @@ def cmd_backup(args):
     conn.connect()
 
     # Get to privileged exec
-    from services.connection import PRIV_PROMPT, OPER_PROMPT
+    from services.connection import OPER_PROMPT, PRIV_PROMPT
     conn.read_until(PRIV_PROMPT + "|" + OPER_PROMPT, timeout=8.0)
 
     # Pull running config
@@ -148,9 +143,7 @@ def cmd_backup(args):
             continue
         clean_lines.append(line)
 
-    config_text = "
-".join(clean_lines).strip() + "
-"
+    config_text = "\n".join(clean_lines).strip() + "\n"
 
     conn.close()
 
@@ -187,8 +180,8 @@ def cmd_backup(args):
 
 def render_config(cfg):
     """Render a SwitchConfig using the Jinja2 template engine."""
+
     from jinja2 import Environment, FileSystemLoader
-    import os
     template_dir = Path(__file__).resolve().parent.parent / "templates"
     env = Environment(loader=FileSystemLoader(str(template_dir)), keep_trailing_newline=True)
     tpl = env.get_template("arubaos_full_config.j2")
@@ -212,9 +205,8 @@ def render_config(cfg):
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="nethermind-cli",
-        description="Nethermind — configure Aruba/ProCurve switches via "
-                    "console, SSH or Telnet.")
+        prog="netcore-cli",
+        description="NetCore — configure network switches via console, SSH or Telnet.")
     sub = p.add_subparsers(dest="cmd", required=True)
 
 

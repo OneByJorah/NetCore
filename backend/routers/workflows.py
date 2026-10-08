@@ -2,13 +2,12 @@
 
 IRIS-inspired operational workflow: Discover → Verify → Propose → Confirm → Execute → Verify → Document.
 """
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-
 from database import get_db
+from fastapi import APIRouter, Depends, HTTPException
 from models import Workflow, WorkflowStep
-from schemas import WorkflowCreate, WorkflowOut, WorkflowStepOut, WorkflowAdvanceRequest
+from schemas import WorkflowAdvanceRequest, WorkflowCreate, WorkflowOut
 from services.workflow_engine import WorkflowEngine
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/workflows", tags=["workflows"])
 

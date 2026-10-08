@@ -17,6 +17,9 @@ Usage:
   NetCore dashboard health
   NetCore server start [--backend-only] [--frontend-only]
   NetCore server stop
+
+Note: SSH passwords should be managed through the .env file for security.
+Use environment variables instead of passing passwords via CLI.
 """
 import argparse
 import json
@@ -32,8 +35,8 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 def _req(method, path, data=None):
-    import urllib.request
     import urllib.error
+    import urllib.request
     url = f"{API_BASE}/api{path}"
     body = json.dumps(data).encode() if data else None
     req = urllib.request.Request(url, data=body, method=method)
@@ -77,9 +80,12 @@ def cmd_switch_list(args):
 
 def cmd_switch_add(args):
     payload = {"hostname": args.hostname, "ip_address": args.ip, "vendor": args.vendor}
-    if args.ssh_port: payload["ssh_port"] = args.ssh_port
-    if args.username: payload["ssh_username"] = args.username
-    if args.password: payload["ssh_password"] = args.password
+    if args.ssh_port:
+        payload["ssh_port"] = args.ssh_port
+    if args.username:
+        payload["ssh_username"] = args.username
+    # Note: SSH passwords should be managed through the .env file, not passed via CLI
+    # for security reasons. Use environment variables instead.
     result = _req("POST", "/switches/", payload)
     if "error" in result:
         print(f"Error: {result['error']}")
@@ -173,7 +179,7 @@ def cmd_security_findings(args):
 
 def cmd_dashboard_stats(_args):
     data = _req("GET", "/dashboard/stats")
-    print("Nethermind Dashboard Stats:")
+    print("NetCore Dashboard Stats:")
     print(f"  Total Switches:    {data.get('total_switches', 0)}")
     print(f"  Online:            {data.get('online_switches', 0)}")
     print(f"  Offline:           {data.get('offline_switches', 0)}")
@@ -221,9 +227,9 @@ def cmd_server_start(args):
         print(f"  Frontend PID: {proc.pid}")
 
     if not backend_only and not frontend_only:
-        print(f"\nDashboard: http://localhost:3000")
-        print(f"API:       http://localhost:8000")
-        print(f"Docs:      http://localhost:8000/docs")
+        print("\nDashboard: http://localhost:3000")
+        print("API:       http://localhost:8000")
+        print("Docs:      http://localhost:8000/docs")
 
 
 def cmd_server_stop(_args):
@@ -243,6 +249,7 @@ def cmd_server_stop(_args):
 # ── Main ──
 
 def main():
+    global API_BASE
     parser = argparse.ArgumentParser(description="NetCore — Network Switch Manager CLI")
     parser.add_argument("--api", help=f"API base URL (default: {API_BASE})")
 
@@ -261,7 +268,8 @@ def main():
     sw_add.add_argument("--vendor", default="aruba_os")
     sw_add.add_argument("--ssh-port", type=int, default=22)
     sw_add.add_argument("--username")
-    sw_add.add_argument("--password")
+    # Note: SSH passwords should be managed through the .env file for security
+    # Use environment variables instead of passing passwords via CLI
 
     sw_del = sw_sub.add_parser("delete")
     sw_del.add_argument("id", type=int)
@@ -321,7 +329,6 @@ def main():
         parser.print_help()
         return
 
-    global API_BASE
     if args.api:
         API_BASE = args.api
 

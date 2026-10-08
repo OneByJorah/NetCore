@@ -3,16 +3,13 @@
 Supports Cisco IOS, Cisco XR, Juniper JunOS, Arista EOS, and Linux.
 Handles config backup, config push, health check, and command execution.
 """
-import os
-import re
 import hashlib
-from typing import Optional
-from netmiko import ConnectHandler, NetmikoTimeoutException, NetmikoAuthenticationException
+import re
 
 from config import settings
 from database import SessionLocal
-from models import Switch, ConfigBackup, AuditLog, DeviceMetric
-
+from models import AuditLog, ConfigBackup, DeviceMetric, Switch
+from netmiko import ConnectHandler, NetmikoAuthenticationException, NetmikoTimeoutException
 
 VENDOR_MAP = {
     "cisco_ios": "cisco_ios",
@@ -177,7 +174,6 @@ def pull_running_config(switch_id: int) -> dict:
         cpu = None
         mem = None
         if "CPU" in health:
-            import re
             cpu_match = re.search(r'(\d+\.?\d*)%', health)
             if cpu_match:
                 cpu = float(cpu_match.group(1))
@@ -266,7 +262,6 @@ def check_health(switch_id: int) -> dict:
         vendor_commands = SHOW_COMMANDS.get(switch.vendor, SHOW_COMMANDS["cisco_ios"])
         health_output = conn.send_command(vendor_commands.get("health", "show clock"))
         memory_output = conn.send_command(vendor_commands.get("memory", ""), delay_factor=2)
-        version_output = conn.send_command(vendor_commands.get("version", "show version"), delay_factor=2)
         interface_output = conn.send_command(vendor_commands.get("interfaces", ""), delay_factor=2)
         conn.disconnect()
 

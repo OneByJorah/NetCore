@@ -10,12 +10,9 @@ Performs automated security audits on network devices:
 Inspired by: NetClaw security auditing capabilities.
 """
 import re
-from typing import Optional
+
+from models import AuditLog, ConfigBackup, SecurityFinding, Switch
 from sqlalchemy.orm import Session
-
-from models import Switch, ConfigBackup, SecurityFinding, AuditLog
-from services.netmiko_client import execute_commands
-
 
 # Known vulnerable OS versions (simplified CVE database)
 # In production, you'd integrate with NVD API or similar
@@ -58,9 +55,11 @@ def _check_aaa_config(config: str) -> list[dict]:
         })
 
     # Check for local login fallback
-    if "aaa authentication login" in config:
-        if "local" not in config.lower().split("aaa authentication")[1].split("\n")[0] if "aaa authentication" in config else "":
-            findings.append({
+    aaa_login_line = ""
+    if "aaa authentication" in config:
+        aaa_login_line = config.lower().split("aaa authentication")[1].split("\n")[0]
+    if "aaa authentication login" in config and "local" not in aaa_login_line:
+        findings.append({
                 "finding_type": "aaa_misconfig",
                 "severity": "medium",
                 "title": "No local fallback for AAA authentication",
@@ -161,7 +160,7 @@ def _check_acls(config: str) -> list[dict]:
             })
 
         # Check ACL line count
-        entry_count = sum(1 for l in lines if l.strip().startswith(("permit", "deny")))
+        entry_count = sum(1 for ln in lines if ln.strip().startswith(("permit", "deny")))
         if entry_count > 100:
             findings.append({
                 "finding_type": "acl_vulnerability",

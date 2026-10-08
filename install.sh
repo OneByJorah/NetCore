@@ -3,7 +3,7 @@ set -euo pipefail
 
 cd "$(dirname "$0")"
 
-echo "=== Installing nethermind ==="
+echo "=== Installing NetCore ==="
 
 if ! command -v docker &> /dev/null; then
     echo "Docker is required but not installed. Please install Docker first."
@@ -25,11 +25,11 @@ if [ ! -f .env ]; then
     fi
 fi
 
-echo "Building and starting nethermind on port 3000..."
+echo "Building and starting NetCore on port 3000..."
 if docker compose version &> /dev/null; then
     docker compose up --build -d
 else
     docker-compose up --build -d
 fi
 
-echo "nethermind installed. Access: http://localhost:3000"
+echo "NetCore installed. Access: http://localhost:3000"

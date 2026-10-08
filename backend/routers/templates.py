@@ -3,22 +3,25 @@
 CRUD operations for config templates, plus template rendering and
 application to switches.
 """
+import contextlib
 import json
 import logging
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import desc
-from typing import Optional
 
 from database import get_db
-from models import ConfigTemplate, AuditLog
+from fastapi import APIRouter, Depends, HTTPException
+from models import AuditLog, ConfigTemplate
 from schemas import (
-    ConfigTemplateCreate, ConfigTemplateUpdate, ConfigTemplateOut,
+    ConfigTemplateCreate,
+    ConfigTemplateOut,
+    ConfigTemplateUpdate,
     TemplateApplyRequest,
 )
 from services.template_engine import (
-    render_template, apply_template_to_switch, seed_builtin_templates,
+    apply_template_to_switch,
+    render_template,
+    seed_builtin_templates,
 )
+from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
@@ -27,8 +30,8 @@ router = APIRouter(prefix="/api/templates", tags=["templates"])
 
 @router.get("/", response_model=list[ConfigTemplateOut])
 def list_templates(
-    vendor: Optional[str] = None,
-    category: Optional[str] = None,
+    vendor: str | None = None,
+    category: str | None = None,
     db: Session = Depends(get_db),
 ):
     """List all config templates with optional filtering."""
@@ -47,7 +50,7 @@ def create_template(data: ConfigTemplateCreate, db: Session = Depends(get_db)):
     try:
         render_template(data.template_body, {})
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=f"Template syntax error: {e}")
+        raise HTTPException(status_code=400, detail=f"Template syntax error: {e}") from e
 
     tmpl = ConfigTemplate(
         name=data.name,
@@ -98,14 +101,12 @@ def update_template(template_id: int, data: ConfigTemplateUpdate, db: Session = 
         try:
             render_template(update_data["template_body"], {})
         except ValueError as e:
-            raise HTTPException(status_code=400, detail=f"Template syntax error: {e}")
+            raise HTTPException(status_code=400, detail=f"Template syntax error: {e}") from e
 
     # Normalize legacy double-encoded variables (stored as JSON strings)
     if "variables" in update_data and isinstance(update_data["variables"], str):
-        try:
+        with contextlib.suppress(ValueError, TypeError):
             update_data["variables"] = json.loads(update_data["variables"])
-        except (ValueError, TypeError):
-            pass
 
     for key, value in update_data.items():
         setattr(tmpl, key, value)
@@ -163,7 +164,7 @@ def render_template_endpoint(data: TemplateApplyRequest, db: Session = Depends(g
             "command_count": len(commands),
         }
     except ValueError as e:
-        raise HTTPException(status_code=400, detail=str(e))
+        raise HTTPException(status_code=400, detail=str(e)) from e
 
 
 @router.post("/apply/{switch_id}")

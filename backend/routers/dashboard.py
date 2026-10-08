@@ -2,14 +2,13 @@
 
 Provides aggregate stats, device metrics, and audit log views.
 """
-from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
-from sqlalchemy import desc, func
-from typing import Optional
 
 from database import get_db
-from models import Switch, ConfigBackup, SecurityFinding, Workflow, AuditLog, DeviceMetric, ContainerlabTopology
-from schemas import DashboardStats, DeviceMetricOut, AuditLogOut
+from fastapi import APIRouter, Depends
+from models import AuditLog, ConfigBackup, ContainerlabTopology, DeviceMetric, SecurityFinding, Switch, Workflow
+from schemas import AuditLogOut, DashboardStats, DeviceMetricOut
+from sqlalchemy import desc
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/dashboard", tags=["dashboard"])
 

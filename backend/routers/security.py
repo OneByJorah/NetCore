@@ -2,24 +2,23 @@
 
 CVE scanning, ACL/AAA audits, compliance checks, and finding management.
 """
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from typing import Optional
 
 from database import get_db
-from models import SecurityFinding, AuditLog
+from fastapi import APIRouter, Depends, HTTPException
+from models import SecurityFinding
 from schemas import SecurityFindingOut, SecurityFindingUpdate
-from services.security_auditor import audit_switch, audit_all_switches, resolve_finding
+from services.security_auditor import audit_all_switches, audit_switch, resolve_finding
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/security", tags=["security"])
 
 
 @router.get("/findings", response_model=list[SecurityFindingOut])
 def list_findings(
-    switch_id: Optional[int] = None,
-    severity: Optional[str] = None,
-    status: Optional[str] = None,
-    finding_type: Optional[str] = None,
+    switch_id: int | None = None,
+    severity: str | None = None,
+    status: str | None = None,
+    finding_type: str | None = None,
     db: Session = Depends(get_db),
 ):
     """List security findings with optional filters."""

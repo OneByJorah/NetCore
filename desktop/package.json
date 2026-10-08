@@ -1,5 +1,5 @@
 {
-  "name": "nethermind",
+  "name": "netcore",
   "version": "1.0.0",
   "description": "AI-powered network switch configuration management",
   "main": "main.js",
@@ -13,8 +13,8 @@
     "build:all": "electron-builder --win --linux --mac"
   },
   "build": {
-    "appId": "com.nethermind.app",
-    "productName": "Nethermind",
+    "appId": "com.netcore.app",
+    "productName": "NetCore",
     "directories": {
       "output": "dist"
     },
@@ -34,14 +34,14 @@
           "arch": ["x64"]
         }
       ],
-      "artifactName": "Nethermind-${version}-win-${arch}.exe"
+      "artifactName": "NetCore-${version}-win-${arch}.exe"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "Nethermind",
+      "shortcutName": "NetCore",
       "installerLanguages": ["en_US"],
       "language": "1033"
     },
@@ -61,7 +61,7 @@
         }
       ],
       "category": "Network",
-      "artifactName": "Nethermind-${version}-linux-${arch}.${ext}"
+      "artifactName": "NetCore-${version}-linux-${arch}.${ext}"
     },
     "mac": {
       "target": "dmg",

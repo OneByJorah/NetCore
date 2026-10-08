@@ -10,14 +10,14 @@ read_until(prompt, timeout), close().  The deployer drives them.
 """
 from __future__ import annotations
 
+import contextlib
 import logging
 import socket
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import List, Optional
 
-logger = logging.getLogger("nethermind.connection")
+logger = logging.getLogger("netcore.connection")
 
 
 # Prompts a ProCurve/Aruba switch shows (we match the trailing '#' or '>').
@@ -28,8 +28,13 @@ PRIV_PROMPT = r"\# *$"
 # --------------------------------------------------------------------------
 # Serial (console / USB)
 # --------------------------------------------------------------------------
-class SerialConnection(ABC):
-    pass
+class SerialConnection(ABC):  # noqa: B024 - marker base, not an interface
+    """Marker base for serial (console/USB) connections.
+
+    Deliberately declares no abstract methods: concrete serial transports are
+    selected at runtime by `open_connection`, so subclasses are not required to
+    implement a fixed interface.
+    """
 
 
 @dataclass
@@ -80,7 +85,7 @@ class Connection(ABC):
             self._write("\r\n")
         time.sleep(delay)
 
-    def read_until(self, pattern: str, timeout: Optional[float] = None,
+    def read_until(self, pattern: str, timeout: float | None = None,
                    chunk_timeout: float = 0.4) -> str:
         """Read until a regex pattern (re.search) is found or timeout.
 
@@ -95,7 +100,7 @@ class Connection(ABC):
         while time.time() < deadline:
             try:
                 chunk = self._read_chunk(chunk_timeout)
-            except socket.timeout:
+            except TimeoutError:
                 chunk = ""
             except Exception:  # pragma: no cover - defensive
                 chunk = ""
@@ -117,7 +122,7 @@ class Connection(ABC):
         return self.read_until(PRIV_PROMPT)
 
     @staticmethod
-    def build(params: ConnParams) -> "Connection":
+    def build(params: ConnParams) -> Connection:
         if params.transport == "serial":
             return PySerialConnection(params)
         if params.transport == "ssh":
@@ -152,10 +157,8 @@ class PySerialConnection(Connection):
         self.read_until(PRIV_PROMPT + "|" + OPER_PROMPT, timeout=4.0)
 
     def close(self) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._ser.close()
-        except Exception:
-            pass
 
     def _write(self, data: str) -> None:
         self._ser.write(data.encode("utf-8", errors="replace"))
@@ -193,14 +196,10 @@ class SshConnection(Connection):
         self.read_until(PRIV_PROMPT + "|" + OPER_PROMPT, timeout=6.0)
 
     def close(self) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._chan.close()
-        except Exception:
-            pass
-        try:
+        with contextlib.suppress(Exception):
             self._ssh.close()
-        except Exception:
-            pass
 
     def _write(self, data: str) -> None:
         self._chan.send(data)
@@ -210,7 +209,7 @@ class SshConnection(Connection):
             self._chan.settimeout(chunk_timeout)
             raw = self._chan.recv(4096)
             return raw.decode("utf-8", errors="replace")
-        except socket.timeout:
+        except TimeoutError:
             return ""
         except EOFError:
             return ""
@@ -222,7 +221,7 @@ class SshConnection(Connection):
 class TelnetConnection(Connection):
     def __init__(self, params: ConnParams):
         super().__init__(params)
-        self._sock: Optional[socket.socket] = None
+        self._sock: socket.socket | None = None
 
     def connect(self) -> None:
         self._sock = socket.create_connection(
@@ -237,10 +236,8 @@ class TelnetConnection(Connection):
         self.read_until(PRIV_PROMPT + "|" + OPER_PROMPT, timeout=6.0)
 
     def close(self) -> None:
-        try:
+        with contextlib.suppress(Exception):
             self._sock.close()
-        except Exception:
-            pass
 
     def _write(self, data: str) -> None:
         self._sock.sendall(data.encode("utf-8", errors="replace"))
@@ -250,7 +247,7 @@ class TelnetConnection(Connection):
         try:
             raw = self._sock.recv(4096)
             return raw.decode("utf-8", errors="replace")
-        except socket.timeout:
+        except TimeoutError:
             return ""
         except EOFError:
             return ""

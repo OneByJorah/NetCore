@@ -4,7 +4,7 @@
 
 # NetCore
 
-**AI-powered network switch management** — multi-vendor SSH and serial access, 50+ Jinja2 templates, an AI agent, and security auditing for mixed network fleets.
+**AI-powered network switch management** — multi-vendor SSH and serial access, modular template system, an AI agent, and security auditing for mixed network fleets.
 
 <a href="https://github.com/OneByJorah/NetCore/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/NetCore?style=flat-square" alt="Stars"></a>
 <a href="https://github.com/OneByJorah/NetCore/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/NetCore?style=flat-square" alt="Last commit"></a>
@@ -13,7 +13,7 @@
 <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
 <img src="https://img.shields.io/badge/Electron-desktop-47848F?style=flat-square&logo=electron&logoColor=white" alt="Electron desktop">
 
-![NetCore screenshot](docs/assets/screenshot.png)
+![NetCore dashboard](docs/assets/screenshots/01-dashboard.png)
 
 </div>
 
@@ -39,7 +39,7 @@ NetCore is a full-stack platform for managing network switches and routers acros
 
 - **Multi-vendor support** — Cisco IOS/XR/NX-OS, HP ArubaOS-Switch (ProCurve), Juniper JunOS, Arista EOS, and Linux.
 - **SSH and serial console** — Netmiko for SSH, pyserial for RS-232/USB out-of-band access, plus Telnet deploy.
-- **50+ Jinja2 templates** — built-in configuration templates for Aruba, Cisco, and generic devices.
+- **Modular template system** — extensible Jinja2 templates for Aruba, Cisco, and generic devices.
 - **Config parser** — turn existing running-config text into structured data for editing and re-rendering.
 - **AI chat assistant** — OpenAI-powered agent with tool calling for natural-language operations.
 - **IRIS-style workflow engine** — disciplined config change management with approval gates.

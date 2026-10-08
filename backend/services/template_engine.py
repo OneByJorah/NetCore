@@ -3,15 +3,14 @@
 Provides template rendering with variable substitution, validation,
 and a library of built-in templates for common network configurations.
 """
+import contextlib
 import json
 import logging
-from typing import Optional
-
-from jinja2 import TemplateError, UndefinedError
-from jinja2.sandbox import SandboxedEnvironment
 
 from database import SessionLocal
-from models import ConfigTemplate, AuditLog
+from jinja2 import TemplateError, UndefinedError
+from jinja2.sandbox import SandboxedEnvironment
+from models import AuditLog, ConfigTemplate
 
 logger = logging.getLogger(__name__)
 
@@ -1651,10 +1650,8 @@ def seed_builtin_templates():
             # Normalize legacy double-encoded variables stored as JSON strings
             for t in db.query(ConfigTemplate).filter_by(is_builtin=True).all():
                 if isinstance(t.variables, str):
-                    try:
+                    with contextlib.suppress(ValueError, TypeError):
                         t.variables = json.loads(t.variables)
-                    except (ValueError, TypeError):
-                        pass
             db.commit()
             return
 
@@ -1701,11 +1698,11 @@ def render_template(template_body: str, variables: dict) -> str:
         rendered = jinja_template.render(**variables)
         return rendered.strip()
     except UndefinedError as e:
-        raise ValueError(f"Missing template variable: {e}")
+        raise ValueError(f"Missing template variable: {e}") from e
     except TemplateError as e:
-        raise ValueError(f"Template syntax error: {e}")
+        raise ValueError(f"Template syntax error: {e}") from e
     except Exception as e:
-        raise ValueError(f"Template rendering failed: {e}")
+        raise ValueError(f"Template rendering failed: {e}") from e
 
 
 def apply_template_to_switch(switch_id: int, template_id: int, variables: dict) -> dict:

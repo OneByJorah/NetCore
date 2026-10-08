@@ -1,8 +1,8 @@
 """Pydantic schemas for API request/response validation."""
 from datetime import datetime
-from typing import Optional, Any
-from pydantic import BaseModel, Field
+from typing import Any
 
+from pydantic import BaseModel, Field
 
 # ─── Switch ───
 
@@ -10,46 +10,46 @@ class SwitchCreate(BaseModel):
     hostname: str = Field(..., min_length=1, max_length=255)
     ip_address: str = Field(..., min_length=7, max_length=45)
     vendor: str = "cisco_ios"
-    device_type: Optional[str] = None
+    device_type: str | None = None
     ssh_port: int = 22
-    ssh_username: Optional[str] = None
-    ssh_password: Optional[str] = None
-    location: Optional[str] = None
-    tags: Optional[str] = ""
-    notes: Optional[str] = None
+    ssh_username: str | None = None
+    ssh_password: str | None = None
+    location: str | None = None
+    tags: str | None = ""
+    notes: str | None = None
     # Connection type
     connection_type: str = "ssh"  # "ssh" or "serial"
     # Serial settings
-    serial_port: Optional[str] = None
+    serial_port: str | None = None
     serial_baud: int = 9600
     serial_databits: int = 8
     serial_parity: str = "N"
     serial_stopbits: int = 1
     serial_timeout: int = 10
-    serial_password: Optional[str] = None
+    serial_password: str | None = None
 
 
 class SwitchUpdate(BaseModel):
-    hostname: Optional[str] = None
-    ip_address: Optional[str] = None
-    vendor: Optional[str] = None
-    device_type: Optional[str] = None
-    ssh_port: Optional[int] = None
-    ssh_username: Optional[str] = None
-    ssh_password: Optional[str] = None
-    location: Optional[str] = None
-    tags: Optional[str] = None
-    notes: Optional[str] = None
-    status: Optional[str] = None
+    hostname: str | None = None
+    ip_address: str | None = None
+    vendor: str | None = None
+    device_type: str | None = None
+    ssh_port: int | None = None
+    ssh_username: str | None = None
+    ssh_password: str | None = None
+    location: str | None = None
+    tags: str | None = None
+    notes: str | None = None
+    status: str | None = None
     # Connection type
-    connection_type: Optional[str] = None
-    serial_port: Optional[str] = None
-    serial_baud: Optional[int] = None
-    serial_databits: Optional[int] = None
-    serial_parity: Optional[str] = None
-    serial_stopbits: Optional[int] = None
-    serial_timeout: Optional[int] = None
-    serial_password: Optional[str] = None
+    connection_type: str | None = None
+    serial_port: str | None = None
+    serial_baud: int | None = None
+    serial_databits: int | None = None
+    serial_parity: str | None = None
+    serial_stopbits: int | None = None
+    serial_timeout: int | None = None
+    serial_password: str | None = None
 
 
 class SwitchOut(BaseModel):
@@ -57,23 +57,23 @@ class SwitchOut(BaseModel):
     hostname: str
     ip_address: str
     vendor: str
-    device_type: Optional[str] = None
+    device_type: str | None = None
     ssh_port: int
     status: str
-    os_version: Optional[str] = None
-    serial_number: Optional[str] = None
-    location: Optional[str] = None
-    tags: Optional[str] = ""
-    notes: Optional[str] = None
+    os_version: str | None = None
+    serial_number: str | None = None
+    location: str | None = None
+    tags: str | None = ""
+    notes: str | None = None
     connection_type: str = "ssh"
-    serial_port: Optional[str] = None
+    serial_port: str | None = None
     serial_baud: int = 9600
     serial_databits: int = 8
     serial_parity: str = "N"
     serial_stopbits: int = 1
     serial_timeout: int = 10
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 
@@ -85,7 +85,7 @@ class ConfigBackupOut(BaseModel):
     switch_id: int
     config_type: str
     running_config: str
-    config_hash: Optional[str] = None
+    config_hash: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -97,7 +97,7 @@ class ConfigDiffOut(BaseModel):
     from_backup_id: int
     to_backup_id: int
     diff_content: str
-    summary: Optional[str] = None
+    summary: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -124,15 +124,15 @@ class ChatMessageOut(BaseModel):
 
 class WorkflowCreate(BaseModel):
     title: str = Field(..., min_length=1, max_length=255)
-    description: Optional[str] = None
-    switch_ids: Optional[str] = None  # comma-separated
-    created_by: Optional[str] = None
-    ticket_ref: Optional[str] = None
+    description: str | None = None
+    switch_ids: str | None = None  # comma-separated
+    created_by: str | None = None
+    ticket_ref: str | None = None
 
 
 class WorkflowAdvanceRequest(BaseModel):
     approved: bool = False
-    result: Optional[str] = None
+    result: str | None = None
 
 
 class WorkflowStepOut(BaseModel):
@@ -140,13 +140,13 @@ class WorkflowStepOut(BaseModel):
     workflow_id: int
     step_type: str
     status: str
-    description: Optional[str] = None
-    command: Optional[str] = None
-    result: Optional[str] = None
+    description: str | None = None
+    command: str | None = None
+    result: str | None = None
     requires_approval: bool = True
-    approved: Optional[bool] = None
+    approved: bool | None = None
     created_at: datetime
-    completed_at: Optional[datetime] = None
+    completed_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 
@@ -154,16 +154,16 @@ class WorkflowStepOut(BaseModel):
 class WorkflowOut(BaseModel):
     id: int
     title: str
-    description: Optional[str] = None
+    description: str | None = None
     status: str
-    switch_ids: Optional[str] = None
-    created_by: Optional[str] = None
-    approved_by: Optional[str] = None
-    ticket_ref: Optional[str] = None
+    switch_ids: str | None = None
+    created_by: str | None = None
+    approved_by: str | None = None
+    ticket_ref: str | None = None
     steps: list[WorkflowStepOut] = []
     created_at: datetime
-    updated_at: Optional[datetime] = None
-    completed_at: Optional[datetime] = None
+    updated_at: datetime | None = None
+    completed_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 
@@ -176,13 +176,13 @@ class SecurityFindingOut(BaseModel):
     finding_type: str
     severity: str
     title: str
-    description: Optional[str] = None
-    remediation: Optional[str] = None
-    cve_id: Optional[str] = None
-    affected_component: Optional[str] = None
+    description: str | None = None
+    remediation: str | None = None
+    cve_id: str | None = None
+    affected_component: str | None = None
     status: str
     created_at: datetime
-    resolved_at: Optional[datetime] = None
+    resolved_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 
@@ -197,12 +197,12 @@ class ContainerlabTopologyOut(BaseModel):
     id: int
     name: str
     topology_data: Any
-    file_path: Optional[str] = None
+    file_path: str | None = None
     node_count: int
     link_count: int
     is_active: bool
     created_at: datetime
-    last_synced_at: Optional[datetime] = None
+    last_synced_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 
@@ -212,13 +212,13 @@ class ContainerlabTopologyOut(BaseModel):
 class DeviceMetricOut(BaseModel):
     id: int
     switch_id: int
-    cpu_usage: Optional[float] = None
-    memory_usage: Optional[float] = None
-    temperature: Optional[float] = None
-    uptime_seconds: Optional[int] = None
-    interface_count: Optional[int] = None
-    interfaces_up: Optional[int] = None
-    interfaces_down: Optional[int] = None
+    cpu_usage: float | None = None
+    memory_usage: float | None = None
+    temperature: float | None = None
+    uptime_seconds: int | None = None
+    interface_count: int | None = None
+    interfaces_up: int | None = None
+    interfaces_down: int | None = None
     recorded_at: datetime
 
     model_config = {"from_attributes": True}
@@ -229,12 +229,12 @@ class DeviceMetricOut(BaseModel):
 class AuditLogOut(BaseModel):
     id: int
     action: str
-    actor: Optional[str] = None
-    target_type: Optional[str] = None
-    target_id: Optional[int] = None
-    details: Optional[Any] = None
+    actor: str | None = None
+    target_type: str | None = None
+    target_id: int | None = None
+    details: Any | None = None
     status: str
-    ip_address: Optional[str] = None
+    ip_address: str | None = None
     created_at: datetime
 
     model_config = {"from_attributes": True}
@@ -256,36 +256,36 @@ class DashboardStats(BaseModel):
 
 class ConfigTemplateCreate(BaseModel):
     name: str = Field(..., min_length=1, max_length=255)
-    description: Optional[str] = None
+    description: str | None = None
     vendor: str = "cisco_ios"
     category: str = "general"
     template_body: str = Field(..., min_length=1)
-    variables: Optional[Any] = None
-    tags: Optional[str] = ""
+    variables: Any | None = None
+    tags: str | None = ""
 
 
 class ConfigTemplateUpdate(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
-    vendor: Optional[str] = None
-    category: Optional[str] = None
-    template_body: Optional[str] = None
-    variables: Optional[Any] = None
-    tags: Optional[str] = None
+    name: str | None = None
+    description: str | None = None
+    vendor: str | None = None
+    category: str | None = None
+    template_body: str | None = None
+    variables: Any | None = None
+    tags: str | None = None
 
 
 class ConfigTemplateOut(BaseModel):
     id: int
     name: str
-    description: Optional[str] = None
+    description: str | None = None
     vendor: str
     category: str
     template_body: str
-    variables: Optional[Any] = None
-    tags: Optional[str] = ""
+    variables: Any | None = None
+    tags: str | None = ""
     is_builtin: bool = False
     created_at: datetime
-    updated_at: Optional[datetime] = None
+    updated_at: datetime | None = None
 
     model_config = {"from_attributes": True}
 

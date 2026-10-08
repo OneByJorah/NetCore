@@ -6,16 +6,15 @@ Validate, render, and deploy configs.
 """
 import hashlib
 import logging
-from fastapi import APIRouter, HTTPException, UploadFile, File, BackgroundTasks
-from pydantic import BaseModel
-from typing import Optional
 
 from database import SessionLocal
-from models import Switch, ConfigBackup, AuditLog
+from fastapi import APIRouter, File, HTTPException, UploadFile
+from models import AuditLog, ConfigBackup, Switch
+from pydantic import BaseModel
 from services.config_parser import parse_config
-from services.switch_config_model import SwitchConfig
+from services.connection import OPER_PROMPT, PRIV_PROMPT, Connection, ConnParams
 from services.deployer import Deployer, render_config
-from services.connection import ConnParams, Connection, PRIV_PROMPT, OPER_PROMPT
+from services.switch_config_model import SwitchConfig
 
 logger = logging.getLogger(__name__)
 
@@ -100,7 +99,7 @@ async def parse_uploaded_config(file: UploadFile = File(...)):
             "config": cfg.to_dict(),
         }
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Parse error: {e}")
+        raise HTTPException(status_code=400, detail=f"Parse error: {e}") from e
 
 
 @router.post("/parse-text")
@@ -117,7 +116,7 @@ async def parse_config_text(body: dict):
             "config": cfg.to_dict(),
         }
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Parse error: {e}")
+        raise HTTPException(status_code=400, detail=f"Parse error: {e}") from e
 
 
 # ─── Validate ───────────────────────────────────────────────────────────────
@@ -130,7 +129,7 @@ async def validate_config(body: dict):
         errors = cfg.validate()
         return {"valid": len(errors) == 0, "errors": errors}
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Validation error: {e}")
+        raise HTTPException(status_code=400, detail=f"Validation error: {e}") from e
 
 
 # ─── Render ─────────────────────────────────────────────────────────────────
@@ -143,7 +142,7 @@ async def render_config_endpoint(body: RenderRequest):
         text = render_config(cfg, body.template)
         return {"success": True, "rendered": text, "line_count": len(text.splitlines())}
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Render error: {e}")
+        raise HTTPException(status_code=400, detail=f"Render error: {e}") from e
 
 
 # ─── Deploy ─────────────────────────────────────────────────────────────────
@@ -175,7 +174,7 @@ async def deploy_config(body: DeployRequest):
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Deploy error: {e}")
+        raise HTTPException(status_code=500, detail=f"Deploy error: {e}") from e
 
 
 # ─── Upload ─────────────────────────────────────────────────────────────────
@@ -243,7 +242,7 @@ async def upload_config(file: UploadFile = File(...), save_to_db: bool = True):
 
         return result
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Upload/parse error: {e}")
+        raise HTTPException(status_code=400, detail=f"Upload/parse error: {e}") from e
 
 
 # ─── Backup (direct) ────────────────────────────────────────────────────────
@@ -327,7 +326,7 @@ async def backup_switch_config(body: BackupDirectRequest):
         return result
     except Exception as e:
         logger.error(f"Backup failed: {e}")
-        raise HTTPException(status_code=500, detail=f"Backup error: {e}")
+        raise HTTPException(status_code=500, detail=f"Backup error: {e}") from e
 
 
 # ─── Backup (by switch ID) ──────────────────────────────────────────────────
@@ -406,4 +405,4 @@ async def backup_switch_by_id(body: BackupByIdRequest):
         raise
     except Exception as e:
         logger.error(f"Backup failed for switch {body.switch_id}: {e}")
-        raise HTTPException(status_code=500, detail=f"Backup error: {e}")
+        raise HTTPException(status_code=500, detail=f"Backup error: {e}") from e

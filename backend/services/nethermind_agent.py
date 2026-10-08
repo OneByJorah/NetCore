@@ -5,14 +5,13 @@ get_switch_config, run_switch_command, get_health, get_security_findings,
 get_audit_logs, and diff_configs.
 """
 import json
-from typing import Optional
-from openai import AsyncOpenAI
-from sqlalchemy.orm import Session
 
 from config import settings
 from database import SessionLocal
-from models import Switch, ConfigBackup, ChatMessage, SecurityFinding, AuditLog, DeviceMetric
-from services.netmiko_client import pull_running_config, execute_commands, check_health
+from models import AuditLog, ChatMessage, ConfigBackup, SecurityFinding, Switch
+from openai import AsyncOpenAI
+
+from services.netmiko_client import check_health, execute_commands, pull_running_config
 
 
 def _get_client() -> AsyncOpenAI:
@@ -267,9 +266,9 @@ async def call_tool(name: str, args: dict) -> str:
             limit = args.get("limit", 20)
             logs = query.order_by(AuditLog.created_at.desc()).limit(limit).all()
             return json.dumps([
-                {"action": l.action, "status": l.status, "details": l.details,
-                 "created_at": str(l.created_at)}
-                for l in logs
+                {"action": lg.action, "status": lg.status, "details": lg.details,
+                 "created_at": str(lg.created_at)}
+                for lg in logs
             ], indent=2)
 
         elif name == "get_network_dashboard":
@@ -286,8 +285,8 @@ async def call_tool(name: str, args: dict) -> str:
                 "total_config_backups": configs_count,
                 "open_security_findings": open_findings,
                 "recent_activity": [
-                    {"action": l.action, "status": l.status, "time": str(l.created_at)}
-                    for l in recent_logs
+                    {"action": lg.action, "status": lg.status, "time": str(lg.created_at)}
+                    for lg in recent_logs
                 ]
             }, indent=2)
 
