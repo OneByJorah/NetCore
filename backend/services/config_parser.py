@@ -4,9 +4,8 @@ into structured SwitchConfig data.
 from __future__ import annotations
 
 import re
-from typing import List, Optional
 
-from services.switch_config_model import SwitchConfig, Vlan, RadiusServer
+from services.switch_config_model import RadiusServer, SwitchConfig, Vlan
 
 _HOST_RE = re.compile(r'hostname\s+"?([^"\r\n]+)"?')
 _VLAN_RE = re.compile(r"^vlan\s+(\d+)")
@@ -68,8 +67,8 @@ def parse_config(text: str) -> SwitchConfig:
         cfg.sflow_ports = sf.group(1).split()[0].strip()
 
     # VLANs - block parsing
-    vlans: List[Vlan] = []
-    current: Optional[Vlan] = None
+    vlans: list[Vlan] = []
+    current: Vlan | None = None
     in_vlan = False
     for raw in lines:
         line = raw.rstrip()
@@ -120,5 +119,5 @@ def parse_config(text: str) -> SwitchConfig:
 
 
 def parse_file(path: str) -> SwitchConfig:
-    with open(path, "r", encoding="utf-8", errors="replace") as fh:
+    with open(path, encoding="utf-8", errors="replace") as fh:
         return parse_config(fh.read())

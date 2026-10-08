@@ -2,11 +2,9 @@
 
 Supports both SQLite (dev) and PostgreSQL (production) seamlessly.
 """
-import os
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, declarative_base
-
 from config import settings
+from sqlalchemy import create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 DATABASE_URL = settings.database_url_safe
 

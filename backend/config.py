@@ -2,9 +2,8 @@
 
 Loads settings from environment variables (via .env file or system env).
 """
-import os
+
 from pydantic_settings import BaseSettings
-from typing import Optional
 
 
 class Settings(BaseSettings):
@@ -27,7 +26,7 @@ class Settings(BaseSettings):
     # OpenAI / AI
     # These fields are read by config validation below and by
     # services/nethermind_agent.py; they must remain defined or the app cannot import.
-    OPENAI_API_KEY: Optional[str] = None
+    OPENAI_API_KEY: str | None = None
     OPENAI_MODEL: str = "gpt-4o"
 
     # SSH
@@ -83,7 +82,8 @@ if not settings.DATABASE_URL:
     )
 
 # Add additional warnings for production
-import warnings
+import warnings  # noqa: E402  (intentionally late; groups the config validation block)
+
 if settings.DEBUG:
     warnings.warn(
         "DEBUG mode is enabled. Do not use in production.",

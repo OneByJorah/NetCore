@@ -3,13 +3,12 @@
 Auto-detect serial ports, USB devices, and network interfaces
 connected to the host machine.
 """
+import logging
 import os
 import re
 import subprocess
-import logging
 
 from fastapi import APIRouter
-
 from services.serial_client import list_available_ports
 
 router = APIRouter(prefix="/api/system", tags=["system"])

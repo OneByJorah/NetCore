@@ -2,13 +2,12 @@
 
 Streaming chat with tool calling via SSE (Server-Sent Events).
 """
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-
 from database import get_db
+from fastapi import APIRouter, Depends, HTTPException
 from models import ChatMessage
-from schemas import ChatRequest, ChatMessageOut
+from schemas import ChatMessageOut, ChatRequest
 from services.nethermind_agent import ask
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/chat", tags=["chat"])
 

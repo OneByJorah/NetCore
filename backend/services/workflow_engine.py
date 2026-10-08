@@ -7,13 +7,12 @@ Each step tracks status, requires human approval for state-changing actions,
 and maintains an immutable audit trail.
 """
 from datetime import datetime
-from typing import Optional
+
+from models import AuditLog, Workflow, WorkflowStep
+from schemas import WorkflowCreate
 from sqlalchemy.orm import Session
 
-from models import Workflow, WorkflowStep, Switch, AuditLog
-from schemas import WorkflowCreate
-from services.netmiko_client import pull_running_config, execute_commands, check_health
-
+from services.netmiko_client import check_health, pull_running_config
 
 WORKFLOW_STEPS = [
     "discover",
@@ -202,7 +201,7 @@ class WorkflowEngine:
             status="success", details=details
         ))
 
-    def get(self, workflow_id: int) -> Optional[Workflow]:
+    def get(self, workflow_id: int) -> Workflow | None:
         """Get a workflow with its steps."""
         wf = self.db.query(Workflow).filter_by(id=workflow_id).first()
         if wf:

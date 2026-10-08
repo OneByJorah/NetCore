@@ -3,10 +3,9 @@
 Models: Switch, ConfigBackup, ChatMessage, Workflow, WorkflowStep,
         AuditLog, SecurityFinding, ContainerlabTopology, DeviceMetric.
 """
-from datetime import datetime
-from sqlalchemy import Column, Integer, String, Text, DateTime, ForeignKey, Float, Boolean, JSON
-from sqlalchemy.sql import func
 from database import Base
+from sqlalchemy import JSON, Boolean, Column, DateTime, Float, ForeignKey, Integer, String, Text
+from sqlalchemy.sql import func
 
 
 class Switch(Base):

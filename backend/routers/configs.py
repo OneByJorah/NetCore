@@ -3,13 +3,13 @@
 List, view, diff, and compare configuration backups.
 """
 import difflib
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import desc
 
 from database import get_db
-from models import ConfigBackup, ConfigDiff, Switch, AuditLog
+from fastapi import APIRouter, Depends, HTTPException
+from models import AuditLog, ConfigBackup, ConfigDiff, Switch
 from schemas import ConfigBackupOut, ConfigDiffOut
+from sqlalchemy import desc
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/configs", tags=["configs"])
 
@@ -95,8 +95,8 @@ def diff_configs(backup_id_a: int, backup_id_b: int, db: Session = Depends(get_d
         "diff_id": config_diff.id,
         "switch_id": ba.switch_id,
         "diff": diff_content,
-        "additions": sum(1 for l in diff_lines if l.startswith("+") and not l.startswith("+++")),
-        "deletions": sum(1 for l in diff_lines if l.startswith("-") and not l.startswith("---")),
+        "additions": sum(1 for ln in diff_lines if ln.startswith("+") and not ln.startswith("+++")),
+        "deletions": sum(1 for ln in diff_lines if ln.startswith("-") and not ln.startswith("---")),
     }
 
 

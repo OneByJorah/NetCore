@@ -2,15 +2,14 @@
 
 Parse .clab.yml topology files, discover lab devices, and sync into the switch database.
 """
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-from sqlalchemy import desc
-
-from database import get_db
 from config import settings
+from database import get_db
+from fastapi import APIRouter, Depends, HTTPException
 from models import ContainerlabTopology
 from schemas import ContainerlabTopologyOut
-from services.containerlab_service import discover_clab_topologies, sync_topology_to_db, scan_and_sync
+from services.containerlab_service import scan_and_sync, sync_topology_to_db
+from sqlalchemy import desc
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/containerlab", tags=["containerlab"])
 
@@ -45,6 +44,7 @@ def parse_topology_file(file_path: str, db: Session = Depends(get_db)):
     may be parsed (prevents arbitrary file read).
     """
     import os
+
     import yaml
 
     allowed_roots = [
@@ -71,7 +71,7 @@ def parse_topology_file(file_path: str, db: Session = Depends(get_db)):
         with open(resolved) as f:
             data = yaml.safe_load(f)
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Failed to parse YAML: {e}")
+        raise HTTPException(status_code=400, detail=f"Failed to parse YAML: {e}") from e
 
     from services.containerlab_service import parse_topology_yaml
     topology = parse_topology_yaml(resolved, data)

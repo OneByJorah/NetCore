@@ -12,13 +12,23 @@ AI-powered network switch configuration management with:
 import logging
 from contextlib import asynccontextmanager
 
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
-
 from config import settings
 from database import init_db
-from routers import switches, configs, chat, workflows, dashboard, security, containerlab, templates, discovery, config_parser_router
+from dotenv import load_dotenv
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+from routers import (
+    chat,
+    config_parser_router,
+    configs,
+    containerlab,
+    dashboard,
+    discovery,
+    security,
+    switches,
+    templates,
+    workflows,
+)
 from services.template_engine import seed_builtin_templates
 
 # Load environment variables

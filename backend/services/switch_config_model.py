@@ -7,8 +7,7 @@ be saved as JSON and reloaded.
 from __future__ import annotations
 
 import json
-from dataclasses import dataclass, field, asdict
-from typing import List, Dict, Optional
+from dataclasses import asdict, dataclass, field
 
 
 @dataclass
@@ -21,11 +20,11 @@ class Vlan:
     mask: str = ""              # subnet mask
     helper: str = ""            # ip helper-address (dhcp relay)
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: Dict) -> "Vlan":
+    def from_dict(cls, d: dict) -> Vlan:
         return cls(
             id=int(d["id"]),
             name=d.get("name", ""),
@@ -42,11 +41,11 @@ class RadiusServer:
     host: str
     key: str = ""
 
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         return asdict(self)
 
     @classmethod
-    def from_dict(cls, d: Dict) -> "RadiusServer":
+    def from_dict(cls, d: dict) -> RadiusServer:
         return cls(host=d["host"], key=d.get("key", ""))
 
 
@@ -60,13 +59,13 @@ class SwitchConfig:
     management_vlan_mask: str = ""
     snmpv3: bool = False
     snmp_contact: str = "OIT"
-    radius_servers: List[RadiusServer] = field(default_factory=list)
-    vlans: List[Vlan] = field(default_factory=list)
+    radius_servers: list[RadiusServer] = field(default_factory=list)
+    vlans: list[Vlan] = field(default_factory=list)
     access_ports: str = "1-24"      # port-security / stp / loop-protect scope
     trust_ports: str = "25-28"      # uplinks trusted for dhcp-snooping
-    dhcp_authorized_servers: List[str] = field(default_factory=list)
+    dhcp_authorized_servers: list[str] = field(default_factory=list)
     dhcp_option82: bool = False
-    sntp_servers: List[str] = field(default_factory=lambda: ["192.168.1.2", "192.168.1.4"])
+    sntp_servers: list[str] = field(default_factory=lambda: ["192.168.1.2", "192.168.1.4"])
     # core only
     ospf_area: str = "0.0.0.1"
     sflow_dest: str = "10.0.0.100"
@@ -76,7 +75,7 @@ class SwitchConfig:
     backbone_port: str = "A2"
 
     # ---------- serialisation ----------
-    def to_dict(self) -> Dict:
+    def to_dict(self) -> dict:
         d = asdict(self)
         d["radius_servers"] = [r.to_dict() for r in self.radius_servers]
         d["vlans"] = [v.to_dict() for v in self.vlans]
@@ -86,7 +85,7 @@ class SwitchConfig:
         return json.dumps(self.to_dict(), indent=indent)
 
     @classmethod
-    def from_dict(cls, d: Dict) -> "SwitchConfig":
+    def from_dict(cls, d: dict) -> SwitchConfig:
         cfg = cls(
             hostname=d.get("hostname", ""),
             role=d.get("role", "access"),
@@ -113,12 +112,12 @@ class SwitchConfig:
         return cfg
 
     @classmethod
-    def from_json(cls, text: str) -> "SwitchConfig":
+    def from_json(cls, text: str) -> SwitchConfig:
         return cls.from_dict(json.loads(text))
 
     # ---------- validation ----------
-    def validate(self) -> List[str]:
-        errs: List[str] = []
+    def validate(self) -> list[str]:
+        errs: list[str] = []
         if not self.hostname:
             errs.append("hostname is required")
         if self.role not in ("access", "core"):

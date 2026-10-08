@@ -4,7 +4,12 @@ line-length = 120
 
 [tool.ruff.lint]
 select = ["E", "F", "W", "I", "UP", "B", "SIM"]
-ignore = ["E501"]
+ignore = [
+    "E501",  # line length is already capped by the formatter
+    # B008: FastAPI *requires* Depends()/File()/Query() to be called in argument
+    # defaults — that is the documented dependency-injection idiom, not a bug.
+    "B008",
+]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

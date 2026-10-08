@@ -2,15 +2,15 @@
 config line-by-line, write memory, and verify the running hostname."""
 from __future__ import annotations
 
+import contextlib
 import logging
 import os
-import time
+from collections.abc import Callable
 from dataclasses import dataclass, field
-from typing import Callable, List, Optional
 
 from jinja2 import Environment, FileSystemLoader
 
-from services.connection import Connection, PRIV_PROMPT, CONFIG_PROMPT
+from services.connection import PRIV_PROMPT, Connection
 from services.switch_config_model import SwitchConfig
 
 logger = logging.getLogger("netcore.deployer")
@@ -33,7 +33,7 @@ def render_config(cfg: SwitchConfig, template_name: str = "arubaos_full_config.j
     ctx["vlans"] = vlans
     text = tpl.render(**ctx)
     lines = [ln.rstrip() for ln in text.splitlines()]
-    out: List[str] = []
+    out: list[str] = []
     for ln in lines:
         if ln == "" and out and out[-1] == "":
             continue
@@ -46,12 +46,12 @@ class DeployResult:
     success: bool
     hostname_seen: str = ""
     lines_sent: int = 0
-    errors: List[str] = field(default_factory=list)
-    log: List[str] = field(default_factory=list)
+    errors: list[str] = field(default_factory=list)
+    log: list[str] = field(default_factory=list)
 
 
 class Deployer:
-    def __init__(self, conn: Connection, progress: Optional[ProgressCB] = None):
+    def __init__(self, conn: Connection, progress: ProgressCB | None = None):
         self.conn = conn
         self.progress = progress or (lambda s: None)
 
@@ -116,8 +116,6 @@ class Deployer:
         if cfg.hostname not in res.hostname_seen:
             res.errors.append(f"hostname verify mismatch: expected {cfg.hostname!r} got {res.hostname_seen!r}")
         res.log.append(verify)
-        try:
+        with contextlib.suppress(Exception):
             self.conn.close()
-        except Exception:
-            pass
         return res

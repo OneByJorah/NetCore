@@ -35,8 +35,8 @@ ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
 def _req(method, path, data=None):
-    import urllib.request
     import urllib.error
+    import urllib.request
     url = f"{API_BASE}/api{path}"
     body = json.dumps(data).encode() if data else None
     req = urllib.request.Request(url, data=body, method=method)
@@ -80,8 +80,10 @@ def cmd_switch_list(args):
 
 def cmd_switch_add(args):
     payload = {"hostname": args.hostname, "ip_address": args.ip, "vendor": args.vendor}
-    if args.ssh_port: payload["ssh_port"] = args.ssh_port
-    if args.username: payload["ssh_username"] = args.username
+    if args.ssh_port:
+        payload["ssh_port"] = args.ssh_port
+    if args.username:
+        payload["ssh_username"] = args.username
     # Note: SSH passwords should be managed through the .env file, not passed via CLI
     # for security reasons. Use environment variables instead.
     result = _req("POST", "/switches/", payload)
@@ -225,9 +227,9 @@ def cmd_server_start(args):
         print(f"  Frontend PID: {proc.pid}")
 
     if not backend_only and not frontend_only:
-        print(f"\nDashboard: http://localhost:3000")
-        print(f"API:       http://localhost:8000")
-        print(f"Docs:      http://localhost:8000/docs")
+        print("\nDashboard: http://localhost:3000")
+        print("API:       http://localhost:8000")
+        print("Docs:      http://localhost:8000/docs")
 
 
 def cmd_server_stop(_args):

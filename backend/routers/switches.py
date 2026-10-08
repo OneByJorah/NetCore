@@ -3,19 +3,21 @@
 CRUD operations for network switches, plus config backup and sync
 supporting both SSH and serial console connections.
 """
-from fastapi import APIRouter, Depends, BackgroundTasks, HTTPException
-from sqlalchemy.orm import Session
-from typing import Optional
 
 from database import get_db
-from models import Switch, AuditLog
-from services.netmiko_client import pull_running_config, check_health, execute_commands, bulk_backup_all
+from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
+from models import AuditLog, Switch
+from schemas import SwitchCreate, SwitchOut, SwitchUpdate, TemplateApplyRequest
+from services.netmiko_client import bulk_backup_all, check_health, execute_commands, pull_running_config
 from services.serial_client import (
-    pull_running_config_serial, check_health_serial,
-    execute_commands_serial, push_config_serial, list_available_ports,
+    check_health_serial,
+    execute_commands_serial,
+    list_available_ports,
+    pull_running_config_serial,
+    push_config_serial,
 )
 from services.template_engine import apply_template_to_switch
-from schemas import SwitchCreate, SwitchUpdate, SwitchOut, TemplateApplyRequest
+from sqlalchemy.orm import Session
 
 router = APIRouter(prefix="/api/switches", tags=["switches"])
 
@@ -30,9 +32,9 @@ def _get_connection_type(switch_id: int, db: Session) -> str:
 
 @router.get("/", response_model=list[SwitchOut])
 def list_switches(
-    status: Optional[str] = None,
-    vendor: Optional[str] = None,
-    connection_type: Optional[str] = None,
+    status: str | None = None,
+    vendor: str | None = None,
+    connection_type: str | None = None,
     db: Session = Depends(get_db),
 ):
     """List all switches with optional filtering."""

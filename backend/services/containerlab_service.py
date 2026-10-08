@@ -6,14 +6,11 @@ extract management IPs, and populate the switch database automatically.
 Inspired by: github.com/zerxen/AINetworkHelperForContainerLab
 """
 import os
-import json
-import yaml
-from typing import Optional
-from pathlib import Path
 
-from sqlalchemy.orm import Session
-from models import Switch, ContainerlabTopology, AuditLog
+import yaml
 from config import settings
+from models import AuditLog, ContainerlabTopology, Switch
+from sqlalchemy.orm import Session
 
 
 def discover_clab_topologies() -> list[dict]:
@@ -33,7 +30,7 @@ def discover_clab_topologies() -> list[dict]:
     for base_path in search_paths:
         if not os.path.isdir(base_path):
             continue
-        for root, dirs, files in os.walk(base_path):
+        for root, _dirs, files in os.walk(base_path):
             for f in files:
                 if f.endswith(".clab.yml") or f.endswith(".clab.yaml"):
                     full_path = os.path.join(root, f)
@@ -75,10 +72,7 @@ def parse_topology_yaml(file_path: str, data: dict) -> dict:
     # Parse links
     link_list = []
     for link in links:
-        if isinstance(link, dict):
-            endpoints = link.get("endpoints", [])
-        else:
-            endpoints = str(link).split(":")
+        endpoints = link.get("endpoints", []) if isinstance(link, dict) else str(link).split(":")
         link_list.append({
             "endpoints": endpoints if isinstance(endpoints, list) else [str(link)]
         })

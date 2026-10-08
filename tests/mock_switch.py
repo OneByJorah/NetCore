@@ -11,11 +11,10 @@ Usage:
 """
 from __future__ import annotations
 
+import contextlib
 import socket
 import sys
 import threading
-import time
-
 
 PROMPT_OPER = "switch> "
 PROMPT_PRIV = "switch# "
@@ -23,7 +22,6 @@ PROMPT_CFG = "switch(config)# "
 
 
 def _session(sock: socket.socket):
-    buf = b""
     state = "oper"
     hostname = "switch"
     saved_hostname = ""
@@ -35,10 +33,8 @@ def _session(sock: socket.socket):
         return f"{hostname}# " if state == "priv" else f"{hostname}> "
 
     def _safe_send(data: bytes):
-        try:
+        with contextlib.suppress(Exception):
             sock.sendall(data)
-        except Exception:
-            pass
 
     _safe_send(PROMPT_OPER.encode())
     while True:
@@ -67,7 +63,7 @@ def _session(sock: socket.socket):
                     saved_hostname = m[1]
                 hostname = saved_hostname or hostname
             elif low == "write mem" or low.startswith("write memory"):
-                _safe_send(f"Configuration edited by operator saved\r\n".encode())
+                _safe_send(b"Configuration edited by operator saved\r\n")
             elif low.startswith("show running-config"):
                 _safe_send(f'hostname "{saved_hostname}"\r\n'.encode())
             elif low == "exit":

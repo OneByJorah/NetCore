@@ -4,18 +4,16 @@ Supports connecting to switches via serial console cable (USB-to-serial,
 RS-232, etc.) for out-of-band management, initial provisioning, and
 recovery scenarios where SSH is not available.
 """
-import re
-import time
 import hashlib
 import logging
-from typing import Optional
+import re
+import time
 
 import serial
-from serial.tools import list_ports
-
 from config import settings
 from database import SessionLocal
-from models import Switch, ConfigBackup, AuditLog, DeviceMetric
+from models import AuditLog, ConfigBackup, DeviceMetric, Switch
+from serial.tools import list_ports
 
 logger = logging.getLogger(__name__)
 
@@ -235,7 +233,6 @@ def check_health_serial(switch_id: int) -> dict:
         _send_command_serial(conn, "terminal length 0", prompt=b"#")
 
         health_output = _send_command_serial(conn, "show processes cpu | include CPU", prompt=b"#", read_timeout=8.0)
-        version_output = _send_command_serial(conn, "show version", prompt=b"#", read_timeout=8.0)
         interface_output = _send_command_serial(conn, "show interfaces summary", prompt=b"#", read_timeout=8.0)
 
         conn.close()
