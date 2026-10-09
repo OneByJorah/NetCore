@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: nethermind-backend
     ports:
-      - "8000:8000"
+      - "127.0.0.1:8000:8000"
     environment:
       - DATABASE_URL=${DATABASE_URL:-sqlite:///./switches.db}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
@@ -17,7 +17,6 @@ services:
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
     volumes:
       - nethermind-data:/app/data
-      - ./backend:/app
     restart: unless-stopped
     networks:
       - nethermind-network
@@ -34,18 +33,14 @@ services:
       dockerfile: Dockerfile
     container_name: nethermind-frontend
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
     environment:
       - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     depends_on:
       - backend
     restart: unless-stopped
     networks:
       - nethermind-network
-    command: ["npm", "run", "dev"]
 
   # PostgreSQL (optional — uncomment for production)
   # postgres:
