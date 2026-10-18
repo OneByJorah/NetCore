@@ -1,6 +1,6 @@
 @echo off
 echo ============================================
-echo  Nethermind Desktop - Starting Application
+echo  netara Desktop - Starting Application
 echo ============================================
 echo.
 
@@ -12,7 +12,7 @@ if not exist "node_modules" (
 )
 
 echo.
-echo [2/3] Starting Nethermind Desktop...
+echo [2/3] Starting netara Desktop...
 echo.
 echo Backend will start on http://localhost:8000
 echo Frontend will start on http://localhost:3000

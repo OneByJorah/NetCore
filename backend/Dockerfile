@@ -1,5 +1,5 @@
 # =============================================================================
-# NetCore Backend — FastAPI + Uvicorn
+# netara Backend — FastAPI + Uvicorn
 #
 # No apt-get at all: every dependency in requirements.txt ships a prebuilt
 # manylinux wheel, so no compiler is needed. This keeps the image small, makes
@@ -19,8 +19,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Create non-root user
-RUN useradd -m -u 1000 netcore && chown -R netcore:netcore /app
-USER netcore
+RUN useradd -m -u 1000 netara && chown -R netara:netara /app
+USER netara
 
 EXPOSE 8000
 

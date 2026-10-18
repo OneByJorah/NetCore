@@ -1,4 +1,4 @@
-"""NetCore AI Agent — OpenAI-powered network assistant with tool calling.
+"""netara AI Agent — OpenAI-powered network assistant with tool calling.
 
 Integrates with the network environment via tools: get_switch_list,
 get_switch_config, run_switch_command, get_health, get_security_findings,
@@ -23,7 +23,7 @@ def _get_client() -> AsyncOpenAI:
         )
     return AsyncOpenAI(api_key=settings.OPENAI_API_KEY)
 
-SYSTEM_PROMPT = """You are NetCore, an expert network engineer AI assistant. You help manage, troubleshoot, and configure network switches and devices.
+SYSTEM_PROMPT = """You are netara, an expert network engineer AI assistant. You help manage, troubleshoot, and configure network switches and devices.
 
 You have access to tools that let you interact with real network devices. Always use tools to get live data rather than making assumptions.
 

@@ -1,5 +1,5 @@
 # =============================================================================
-# NetCore Frontend — Next.js production image (standalone output)
+# netara Frontend — Next.js production image (standalone output)
 #
 # Previously this image ran `npm run dev`: a hot-reloading development server
 # shipped as the production artifact. It now does a real production build and
@@ -19,6 +19,8 @@ RUN npm ci --prefer-offline
 FROM node:20-alpine AS builder
 WORKDIR /app
 ENV NEXT_TELEMETRY_DISABLED=1
+ARG NEXT_PUBLIC_API_URL=http://localhost:8000
+ENV NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL}
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 # Next.js expects a public/ dir; this repo has none, so create an empty one to

@@ -4,7 +4,7 @@ import { NavSidebar } from '@/components/NavSidebar'
 import { Toaster } from 'react-hot-toast'
 
 export const metadata: Metadata = {
-  title: 'Nethermind — Network Intelligence',
+  title: 'netara — Network Intelligence',
   description: 'AI-powered network switch configuration management — multi-vendor SSH + serial, Jinja2 templates, AI agent, and security auditing.',
 }
 

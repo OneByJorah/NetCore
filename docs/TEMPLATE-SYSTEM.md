@@ -1,8 +1,8 @@
-# NetCore Template System
+# netara Template System
 
 ## Overview
 
-NetCore provides a robust template engine for generating network device configurations from Jinja2 templates. The system supports 50+ built-in templates covering various device vendors (Cisco, Aruba, Juniper, Arista, Linux) and use cases (VLANs, security, routing, interfaces, etc.).
+netara provides a robust template engine for generating network device configurations from Jinja2 templates. The system supports 50+ built-in templates covering various device vendors (Cisco, Aruba, Juniper, Arista, Linux) and use cases (VLANs, security, routing, interfaces, etc.).
 
 ## Template Structure
 
@@ -122,7 +122,7 @@ Each template can use various variables to customize the generated configuration
 
 ### Rendering a Template
 
-Use the NetCore CLI or API to render a template:
+Use the netara CLI or API to render a template:
 
 ```bash
 # Using CLI
@@ -256,7 +256,7 @@ radius-server host {{ r.host }} key "{{ r.key }}"
 
 ### API Integration
 
-The NetCore API provides endpoints for template operations:
+The netara API provides endpoints for template operations:
 
 - `GET /api/templates/` - List all available templates
 - `POST /api/templates/render` - Render a template with variables
@@ -264,11 +264,11 @@ The NetCore API provides endpoints for template operations:
 
 ### CLI Integration
 
-The NetCore CLI provides template rendering capabilities:
+The netara CLI provides template rendering capabilities:
 
 ```bash
 # List available templates
-NetCore templates list
+netara templates list
 
 # Render a template
 cd scripts
@@ -306,7 +306,7 @@ Templates are tested with various scenarios:
 
 ## Documentation
 
-This documentation is continuously updated as new templates are added and the template system evolves. For the most up-to-date information, refer to the NetCore GitHub repository.
+This documentation is continuously updated as new templates are added and the template system evolves. For the most up-to-date information, refer to the netara GitHub repository.
 
 ---
 

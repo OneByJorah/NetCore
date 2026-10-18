@@ -1,4 +1,4 @@
-"""Centralized configuration for NetCore.
+"""Centralized configuration for netara.
 
 Loads settings from environment variables (via .env file or system env).
 """
@@ -8,7 +8,7 @@ from pydantic_settings import BaseSettings
 
 class Settings(BaseSettings):
     # App
-    APP_NAME: str = "NetCore"
+    APP_NAME: str = "netara"
     VERSION: str = "1.0.0"
     DEBUG: bool = False
     LOG_LEVEL: str = "INFO"
@@ -25,7 +25,7 @@ class Settings(BaseSettings):
 
     # OpenAI / AI
     # These fields are read by config validation below and by
-    # services/nethermind_agent.py; they must remain defined or the app cannot import.
+    # services/netara_agent.py; they must remain defined or the app cannot import.
     OPENAI_API_KEY: str | None = None
     OPENAI_MODEL: str = "gpt-4o"
 

@@ -1,4 +1,4 @@
-"""Command-line interface for NetCore — network switch configuration manager."""
+"""Command-line interface for netara — network switch configuration manager."""
 from __future__ import annotations
 
 import argparse
@@ -205,8 +205,8 @@ def render_config(cfg):
 
 def build_parser() -> argparse.ArgumentParser:
     p = argparse.ArgumentParser(
-        prog="netcore-cli",
-        description="NetCore — configure network switches via console, SSH or Telnet.")
+        prog="netara-cli",
+        description="netara — configure network switches via console, SSH or Telnet.")
     sub = p.add_subparsers(dest="cmd", required=True)
 
 

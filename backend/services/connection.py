@@ -17,7 +17,7 @@ import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
-logger = logging.getLogger("netcore.connection")
+logger = logging.getLogger("netara.connection")
 
 
 # Prompts a ProCurve/Aruba switch shows (we match the trailing '#' or '>').

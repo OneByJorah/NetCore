@@ -1,39 +1,40 @@
 <div align="center">
 
-![NetCore banner](docs/assets/banner.svg)
+![netara banner](docs/assets/banner.svg)
 
-# NetCore
+# netara
 
 **AI-powered network switch management** — multi-vendor SSH and serial access, modular template system, an AI agent, and security auditing for mixed network fleets.
 
-<a href="https://github.com/OneByJorah/NetCore/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/NetCore?style=flat-square" alt="Stars"></a>
-<a href="https://github.com/OneByJorah/NetCore/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/NetCore?style=flat-square" alt="Last commit"></a>
-<img src="https://img.shields.io/github/license/OneByJorah/NetCore?style=flat-square" alt="License">
+<a href="https://github.com/OneByJorah/netara/stargazers"><img src="https://img.shields.io/github/stars/OneByJorah/netara?style=flat-square" alt="Stars"></a>
+<a href="https://github.com/OneByJorah/netara/commits"><img src="https://img.shields.io/github/last-commit/OneByJorah/netara?style=flat-square" alt="Last commit"></a>
+<img src="https://img.shields.io/github/license/OneByJorah/netara?style=flat-square" alt="License">
 <img src="https://img.shields.io/badge/Python-3.12-3776AB?style=flat-square&logo=python&logoColor=white" alt="Python">
 <img src="https://img.shields.io/badge/FastAPI-009688?style=flat-square&logo=fastapi&logoColor=white" alt="FastAPI">
 <img src="https://img.shields.io/badge/Electron-desktop-47848F?style=flat-square&logo=electron&logoColor=white" alt="Electron desktop">
 
-![NetCore dashboard](docs/assets/screenshots/01-dashboard.png)
+![netara dashboard](docs/screenshots/dashboard.png)
 
 </div>
+
+> **Formerly NetCore.** This project was rebranded from NetCore / nethermind to netara.
 
 ## Quick Start
 
 ```bash
-git clone https://github.com/OneByJorah/NetCore.git
-cd NetCore
+git clone https://github.com/OneByJorah/netara.git
+cd netara
 cp .env.example .env   # set OPENAI_API_KEY and SSH credentials
-docker compose up -d
+docker compose up -d --build
 ```
 
 Open **http://localhost:3000** for the web UI, or **http://localhost:8000/docs** for the API docs.
 
+If ports 3000 or 8000 are already in use, set `FRONTEND_PORT` and `BACKEND_PORT` in `.env` before starting.
+
 ## What This Is
 
-NetCore is a full-stack platform for managing network switches and routers across vendors. It connects over SSH or a serial console, generates configs from templates, parses existing running-configs into structured data, runs AI-assisted operations, and enforces change discipline through an approval workflow. It is built for network engineers and MSPs who manage heterogeneous hardware and want an audit trail behind every change.
-
-> [!NOTE]
-> This project has been consolidated from nethermind legacy codebase. NetCore represents the evolution and modernization of the original nethermind platform.
+netara is a full-stack platform for managing network switches and routers across vendors. It connects over SSH or a serial console, generates configs from templates, parses existing running-configs into structured data, runs AI-assisted operations, and enforces change discipline through an approval workflow. It is built for network engineers and MSPs who manage heterogeneous hardware and want an audit trail behind every change.
 
 ## Features
 
@@ -118,13 +119,15 @@ Copy `.env.example` to `.env` and set real values:
 | `LOG_LEVEL` | `INFO` | Log verbosity |
 | `CORS_ORIGINS` | `http://localhost:3000,http://localhost:5173` | Allowed frontend origins |
 | `NEXT_PUBLIC_API_URL` | `http://localhost:8000` | Frontend → backend API base URL |
+| `BACKEND_PORT` | `8000` | Host port for the backend container |
+| `FRONTEND_PORT` | `3000` | Host port for the frontend container |
 
 > [!WARNING]
 > SSH passwords are stored encrypted at rest, but the default `SECRET_KEY` and SQLite database are development defaults. Set a strong `SECRET_KEY`, uncomment the PostgreSQL service, and switch `DATABASE_URL` before production use.
 
 ## CLI
 
-NetCore also ships a CLI for quick config operations:
+netara also ships a CLI for quick config operations:
 
 ```bash
 cd scripts
@@ -162,27 +165,24 @@ An Electron package bundles the backend and frontend into a single app. Build wi
 
 ## Tech Stack
 
-FastAPI, SQLAlchemy, Netmiko, pyserial, Jinja2, OpenAI SDK, Next.js 16 (TypeScript), Tailwind CSS, Electron, SQLite/PostgreSQL, Docker Compose, uv/Ruff/pytest.
+FastAPI, SQLAlchemy, Netmiko, pyserial, Jinja2, OpenAI SDK, Next.js (TypeScript), Tailwind CSS, Electron, SQLite/PostgreSQL, Docker Compose, uv/Ruff/pytest.
 
 ## Screenshots
 
+Captured from the local stack:
+
 | View | Preview |
 |------|---------|
-| Dashboard | ![Dashboard](docs/assets/screenshots/01-dashboard.png) |
-| Switches | ![Switches](docs/assets/screenshots/02-switches.png) |
-| Configs | ![Configs](docs/assets/screenshots/03-configs.png) |
-| Templates | ![Templates](docs/assets/screenshots/04-templates.png) |
-| AI chat | ![AI chat](docs/assets/screenshots/05-chat.png) |
-| Workflows | ![Workflows](docs/assets/screenshots/06-workflows.png) |
-| Security | ![Security](docs/assets/screenshots/07-security.png) |
-| Topology | ![Topology](docs/assets/screenshots/08-topology.png) |
-| Metrics | ![Metrics](docs/assets/screenshots/09-metrics.png) |
-| API docs | ![API docs](docs/assets/screenshots/10-api-docs.png) |
+| Dashboard | ![Dashboard](docs/screenshots/dashboard.png) |
+| Switches | ![Switches](docs/screenshots/switches.png) |
+| Templates | ![Templates](docs/screenshots/templates.png) |
+| AI chat | ![AI chat](docs/screenshots/chat.png) |
+| API docs | ![API docs](docs/screenshots/api-docs.png) |
 
 ## Project Structure
 
 ```
-NetCore/
+netara/
 ├── backend/                 # FastAPI app (routers, services, models)
 ├── frontend/                # Next.js dashboard
 ├── desktop/                 # Electron desktop packaging
@@ -197,7 +197,7 @@ NetCore/
 
 ## Contributing
 
-Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), then [open an issue](https://github.com/OneByJorah/NetCore/issues) or a pull request.
+Contributions are welcome. Please read [CONTRIBUTING.md](CONTRIBUTING.md) and [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md), then [open an issue](https://github.com/OneByJorah/netara/issues) or a pull request.
 
 ## License
 

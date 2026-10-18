@@ -1,4 +1,4 @@
-# NetCore — Persona
+# netara — Persona
 
 Archetype:        The Wire Whisperer
 

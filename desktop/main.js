@@ -134,7 +134,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 700,
-    title: 'Nethermind — Network Intelligence',
+    title: 'netara — Network Intelligence',
     icon: path.join(__dirname, 'assets', process.platform === 'win32' ? 'icon.ico' : 'icon.png'),
     webPreferences: {
       nodeIntegration: false,
@@ -162,7 +162,7 @@ function createWindow() {
       console.error('Failed to start services:', err);
       dialog.showErrorBox(
         'Startup Error',
-        `Failed to start Nethermind services:\n\n${err.message}\n\nPlease ensure Python and Node.js are installed.`
+        `Failed to start netara services:\n\n${err.message}\n\nPlease ensure Python and Node.js are installed.`
       );
     }
   });

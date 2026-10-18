@@ -221,7 +221,7 @@ export default function DashboardPage() {
             <QuickAction
               href="/chat"
               label="AI Assistant"
-              description="Ask Nethermind about your network"
+              description="Ask netara about your network"
               icon={<MessageSquare className="w-4 h-4" />}
               color="purple"
             />

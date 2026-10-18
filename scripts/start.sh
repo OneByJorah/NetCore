@@ -1,5 +1,5 @@
 #!/bin/bash
-# NetCore — Start both backend and frontend services
+# netara — Start both backend and frontend services
 set -e
 
 ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
@@ -7,7 +7,7 @@ BACKEND_DIR="$ROOT_DIR/backend"
 FRONTEND_DIR="$ROOT_DIR/frontend"
 
 echo "╔══════════════════════════════════════════╗"
-echo "║   NetCore — Starting Services        ║"
+echo "║   netara — Starting Services        ║"
 echo "╚══════════════════════════════════════════╝"
 echo ""
 

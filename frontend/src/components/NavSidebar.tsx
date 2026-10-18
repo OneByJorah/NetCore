@@ -58,7 +58,7 @@ const navGroups: NavGroup[] = [
   {
     label: 'Operations',
     items: [
-      { label: 'Nethermind Chat', href: '/chat', icon: MessageSquare },
+      { label: 'netara Chat', href: '/chat', icon: MessageSquare },
       { label: 'Workflows', href: '/workflows', icon: GitBranch },
       { label: 'Security', href: '/security', icon: Shield },
       { label: 'Topology', href: '/topology', icon: Map },
@@ -86,7 +86,7 @@ export function NavSidebar() {
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-surface-1 pulse-dot" />
           </div>
           <div>
-            <h1 className="font-bold text-[15px] text-white tracking-tight">Nethermind</h1>
+            <h1 className="font-bold text-[15px] text-white tracking-tight">netara</h1>
             <p className="text-[11px] text-slate-500 font-medium">Network Intelligence</p>
           </div>
         </Link>
@@ -175,13 +175,13 @@ export function NavSidebar() {
           </div>
           <div className="flex-1 min-w-0">
             <p className="text-xs font-semibold text-white truncate">Admin</p>
-            <p className="text-[10px] text-slate-500 truncate">admin@nethermind</p>
+            <p className="text-[10px] text-slate-500 truncate">admin@netara</p>
           </div>
           <button className="p-1 rounded hover:bg-white/[0.05] text-slate-500 hover:text-slate-300 transition-colors">
             <LogOut className="w-3.5 h-3.5" />
           </button>
         </div>
-        <p className="text-[10px] text-slate-600 text-center">v1.0.0 · Nethermind AI</p>
+        <p className="text-[10px] text-slate-600 text-center">v1.0.0 · netara AI</p>
       </div>
     </aside>
   )
