@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
-"""NetCore CLI — Manage network switches from the terminal.
+"""netara CLI — Manage network switches from the terminal.
 
 Usage:
-  NetCore switches list [--status=online]
-  NetCore switches add <hostname> <ip> [--vendor=aruba_os]
-  NetCore switches delete <id>
-  NetCore switches health <id>
-  NetCore switches sync <id>
-  NetCore switches commands <id> <command>...
-  NetCore configs list [--switch-id=N]
-  NetCore configs latest <switch-id>
-  NetCore configs diff <backup-a> <backup-b>
-  NetCore security audit <switch-id>
-  NetCore security findings [--switch-id=N]
-  NetCore dashboard stats
-  NetCore dashboard health
-  NetCore server start [--backend-only] [--frontend-only]
-  NetCore server stop
+  netara switches list [--status=online]
+  netara switches add <hostname> <ip> [--vendor=aruba_os]
+  netara switches delete <id>
+  netara switches health <id>
+  netara switches sync <id>
+  netara switches commands <id> <command>...
+  netara configs list [--switch-id=N]
+  netara configs latest <switch-id>
+  netara configs diff <backup-a> <backup-b>
+  netara security audit <switch-id>
+  netara security findings [--switch-id=N]
+  netara dashboard stats
+  netara dashboard health
+  netara server start [--backend-only] [--frontend-only]
+  netara server stop
 
 Note: SSH passwords should be managed through the .env file for security.
 Use environment variables instead of passing passwords via CLI.
@@ -30,7 +30,7 @@ import sys
 import time
 from pathlib import Path
 
-API_BASE = os.environ.get("NETCORE_API", "http://localhost:8000")
+API_BASE = os.environ.get("NETARA_API", "http://localhost:8000")
 ROOT_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -179,7 +179,7 @@ def cmd_security_findings(args):
 
 def cmd_dashboard_stats(_args):
     data = _req("GET", "/dashboard/stats")
-    print("NetCore Dashboard Stats:")
+    print("netara Dashboard Stats:")
     print(f"  Total Switches:    {data.get('total_switches', 0)}")
     print(f"  Online:            {data.get('online_switches', 0)}")
     print(f"  Offline:           {data.get('offline_switches', 0)}")
@@ -233,7 +233,7 @@ def cmd_server_start(args):
 
 
 def cmd_server_stop(_args):
-    pid_file = Path("/tmp/NetCore-backend.pid")
+    pid_file = Path("/tmp/netara-backend.pid")
     if pid_file.exists():
         try:
             pid = int(pid_file.read_text().strip())
@@ -250,7 +250,7 @@ def cmd_server_stop(_args):
 
 def main():
     global API_BASE
-    parser = argparse.ArgumentParser(description="NetCore — Network Switch Manager CLI")
+    parser = argparse.ArgumentParser(description="netara — Network Switch Manager CLI")
     parser.add_argument("--api", help=f"API base URL (default: {API_BASE})")
 
     sub = parser.add_subparsers(dest="command")

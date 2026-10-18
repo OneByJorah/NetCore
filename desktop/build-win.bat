@@ -1,6 +1,6 @@
 @echo off
 echo ============================================
-echo  Nethermind Desktop - Windows Build
+echo  netara Desktop - Windows Build
 echo ============================================
 echo.
 
@@ -37,7 +37,7 @@ echo.
 echo Output files are in: desktop\dist\
 echo.
 echo Available installers:
-echo   - Nethermind-Setup-x64.exe  (NSIS Installer)
-echo   - Nethermind-x64.exe        (Portable)
+echo   - netara-Setup-x64.exe  (NSIS Installer)
+echo   - netara-x64.exe        (Portable)
 echo.
 pause

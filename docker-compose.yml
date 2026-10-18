@@ -3,9 +3,9 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    container_name: nethermind-backend
+    container_name: netara-backend
     ports:
-      - "127.0.0.1:8000:8000"
+      - "127.0.0.1:${BACKEND_PORT:-8000}:8000"
     environment:
       - DATABASE_URL=${DATABASE_URL:-sqlite:///./switches.db}
       - OPENAI_API_KEY=${OPENAI_API_KEY}
@@ -14,10 +14,10 @@ services:
       - LOG_LEVEL=${LOG_LEVEL:-INFO}
       - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://127.0.0.1:3000,http://localhost:5173,http://127.0.0.1:5173}
     volumes:
-      - nethermind-data:/app/data
+      - netara-data:/app/data
     restart: unless-stopped
     networks:
-      - nethermind-network
+      - netara-network
     healthcheck:
       test: ["CMD-SHELL", "python -c \"import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=5)\""]
       interval: 30s
@@ -29,41 +29,43 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    container_name: nethermind-frontend
+      args:
+        - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:${BACKEND_PORT:-8000}}
+    container_name: netara-frontend
     ports:
-      - "127.0.0.1:3000:3000"
+      - "127.0.0.1:${FRONTEND_PORT:-3000}:3000"
     environment:
-      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:8000}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:${BACKEND_PORT:-8000}}
     depends_on:
       - backend
     restart: unless-stopped
     networks:
-      - nethermind-network
+      - netara-network
 
   # PostgreSQL (optional — uncomment for production)
   # postgres:
   #   image: postgres:16-alpine
-  #   container_name: nethermind-postgres
+  #   container_name: netara-postgres
   #   environment:
-  #     POSTGRES_USER: nethermind
+  #     POSTGRES_USER: netara
   #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-changeme}
-  #     POSTGRES_DB: nethermind
+  #     POSTGRES_DB: netara
   #   volumes:
   #     - postgres-data:/var/lib/postgresql/data
   #   ports:
   #     - "5432:5432"
   #   networks:
-  #     - nethermind-network
+  #     - netara-network
   #   healthcheck:
-  #     test: ["CMD-SHELL", "pg_isready -U nethermind"]
+  #     test: ["CMD-SHELL", "pg_isready -U netara"]
   #     interval: 10s
   #     timeout: 5s
   #     retries: 5
 
 volumes:
-  nethermind-data:
+  netara-data:
   # postgres-data:
 
 networks:
-  nethermind-network:
+  netara-network:
     driver: bridge

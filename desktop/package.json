@@ -1,5 +1,5 @@
 {
-  "name": "netcore",
+  "name": "netara",
   "version": "1.0.0",
   "description": "AI-powered network switch configuration management",
   "main": "main.js",
@@ -13,8 +13,8 @@
     "build:all": "electron-builder --win --linux --mac"
   },
   "build": {
-    "appId": "com.netcore.app",
-    "productName": "NetCore",
+    "appId": "com.netara.app",
+    "productName": "netara",
     "directories": {
       "output": "dist"
     },
@@ -34,14 +34,14 @@
           "arch": ["x64"]
         }
       ],
-      "artifactName": "NetCore-${version}-win-${arch}.exe"
+      "artifactName": "netara-${version}-win-${arch}.exe"
     },
     "nsis": {
       "oneClick": false,
       "allowToChangeInstallationDirectory": true,
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
-      "shortcutName": "NetCore",
+      "shortcutName": "netara",
       "installerLanguages": ["en_US"],
       "language": "1033"
     },
@@ -61,7 +61,7 @@
         }
       ],
       "category": "Network",
-      "artifactName": "NetCore-${version}-linux-${arch}.${ext}"
+      "artifactName": "netara-${version}-linux-${arch}.${ext}"
     },
     "mac": {
       "target": "dmg",

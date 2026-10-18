@@ -9,7 +9,7 @@
 │  :3000       │     │  Routers → Services → Database             │
 └─────────────┘     │                                              │
                     │  ┌─────────────────┐  ┌──────────────────┐  │
-                    │  │ Nethermind AI Agent │  │ Workflow Engine  │  │
+                    │  │ netara AI Agent │  │ Workflow Engine  │  │
                     │  │ (OpenAI + Tools)│  │ (IRIS-style)     │  │
                     │  └────────┬────────┘  └────────┬─────────┘  │
                     │           │                     │            │

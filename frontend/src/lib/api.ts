@@ -1,5 +1,5 @@
 /**
- * API client for Nethermind backend.
+ * API client for netara backend.
  */
 const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
 

@@ -1,4 +1,4 @@
-"""Pytest configuration for NetCore.
+"""Pytest configuration for netara.
 
 Isolates the database to a temporary SQLite file *before* `main` is imported, so a
 test run never touches the real `switches.db`.
@@ -21,7 +21,7 @@ def pytest_configure():
         sys.path.insert(0, str(BACKEND_DIR))
     # settings/database read this at import time, so it must be set first.
     # Use a temp directory outside the repo so no stray .db is created in-tree.
-    db_dir = tempfile.mkdtemp(prefix="netcore-tests-")
+    db_dir = tempfile.mkdtemp(prefix="netara-tests-")
     os.environ["DATABASE_URL"] = f"sqlite:///{db_dir}/test_switches.db"
 
 

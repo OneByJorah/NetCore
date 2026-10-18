@@ -13,7 +13,7 @@ from jinja2 import Environment, FileSystemLoader
 from services.connection import PRIV_PROMPT, Connection
 from services.switch_config_model import SwitchConfig
 
-logger = logging.getLogger("netcore.deployer")
+logger = logging.getLogger("netara.deployer")
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "..", "..", "templates")
 ProgressCB = Callable[[str], None]

@@ -1,4 +1,4 @@
-"""SQLAlchemy models for NetCore.
+"""SQLAlchemy models for netara.
 
 Models: Switch, ConfigBackup, ChatMessage, Workflow, WorkflowStep,
         AuditLog, SecurityFinding, ContainerlabTopology, DeviceMetric.
@@ -67,7 +67,7 @@ class ConfigDiff(Base):
 
 
 class ChatMessage(Base):
-    """Chat history for NetCore AI agent sessions."""
+    """Chat history for netara AI agent sessions."""
     __tablename__ = "chat_messages"
 
     id = Column(Integer, primary_key=True)

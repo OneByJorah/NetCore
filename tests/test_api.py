@@ -1,4 +1,4 @@
-"""Real tests for the NetCore backend.
+"""Real tests for the netara backend.
 
 Covers the API surface end-to-end through TestClient, plus pure-logic unit tests for
 the ArubaOS/ProCurve running-config parser (`services/config_parser.py`).
@@ -11,7 +11,7 @@ def test_root_returns_app_metadata(client):
     r = client.get("/")
     assert r.status_code == 200
     body = r.json()
-    assert body["app"] == "NetCore"
+    assert body["app"] == "netara"
     assert body["version"]
     assert "features" in body and isinstance(body["features"], list)
 

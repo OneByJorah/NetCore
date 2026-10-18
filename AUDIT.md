@@ -1,4 +1,4 @@
-# NetCore — Audit (2026-10-08, Stage 1)
+# netara — Audit (2026-10-08, Stage 1)
 
 Baseline recorded before any change. Every claim below came from a command run locally
 against a clean clone.
@@ -66,7 +66,7 @@ Line 151 contained a string literal broken by real newlines:
 
 **Fix:** restored the `\n` escapes.
 
-### N4 — syntax error in `scripts/nethermind.py` (fixed)
+### N4 — syntax error in `scripts/netara.py` (fixed)
 `main()` read module-global `API_BASE` at line 251 (inside an f-string for `--help`) but
 declared `global API_BASE` at line 329 → `SyntaxError: name 'API_BASE' is used prior to
 global declaration`.

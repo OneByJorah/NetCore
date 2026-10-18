@@ -1,8 +1,8 @@
-"""NetCore — FastAPI Application.
+"""netara — FastAPI Application.
 
 AI-powered network switch configuration management with:
 - Multi-vendor SSH config backup
-- AI chat assistant (NetCore agent) with tool calling
+- AI chat assistant (netara agent) with tool calling
 - IRIS-style workflow engine
 - Containerlab topology integration
 - Security auditing (CVE, ACL, AAA, compliance)
@@ -105,7 +105,7 @@ def root():
         "features": [
             "Switch Management",
             "Config Backup & Diff",
-            "Nethermind AI Chat",
+            "netara AI Chat",
             "Workflow Engine",
             "Security Auditing",
             "Containerlab Integration",

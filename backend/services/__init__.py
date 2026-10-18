@@ -1,1 +1,1 @@
-# NetCore — Services Package
+# netara — Services Package

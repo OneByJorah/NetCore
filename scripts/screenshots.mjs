@@ -1,5 +1,6 @@
-// Captures real screenshots of the running demo stack with Playwright.
-// Usage (stack already running):  BASE_URL=http://127.0.0.1:8080 node scripts/screenshots.mjs
+// Captures real screenshots of the running netara stack with Playwright.
+// Usage (stack already running on 3000/8000 or alternate ports):
+//   BASE_URL=http://127.0.0.1:3000 API_URL=http://127.0.0.1:8000 node scripts/screenshots.mjs
 // Requires: npm install --no-save playwright && npx playwright install chromium
 //
 // Safety: every page is scanned for private IPs, tailnet IPs, emails, and forbidden words
@@ -9,15 +10,18 @@
 import { chromium } from "playwright";
 import fs from "node:fs";
 import path from "node:path";
-import { spawnSync } from "node:child_process";
 
-const BASE = process.env.BASE_URL || "http://127.0.0.1:8080";
+const BASE = process.env.BASE_URL || "http://127.0.0.1:3000";
+const API = process.env.API_URL || "http://127.0.0.1:8000";
 const OUT = process.env.OUT_DIR || "docs/screenshots";
-const RECORD = process.env.RECORD === "1";
 
-// Edit this list per project: one entry per screen worth showing.
+// Pages to capture from the live frontend and backend.
 const PAGES = [
-  { name: "dashboard", path: "/", waitFor: "#app-ready" },
+  { name: "dashboard", url: BASE + "/", wait: 2000 },
+  { name: "switches", url: BASE + "/switches", wait: 2000 },
+  { name: "templates", url: BASE + "/templates", wait: 2000 },
+  { name: "chat", url: BASE + "/chat", wait: 2000 },
+  { name: "api-docs", url: API + "/docs", wait: 2000 },
 ];
 
 const FORBIDDEN = [
@@ -33,11 +37,7 @@ const FORBIDDEN = [
 ];
 
 fs.mkdirSync(OUT, { recursive: true });
-const videoDir = path.join("tmp", "videos");
-if (RECORD) fs.mkdirSync(videoDir, { recursive: true });
 
-// CHROMIUM_PATH: use an existing Chrome/Chromium instead of Playwright's download (handy on a prepared runner).
-// NO_SANDBOX=1: needed when running as root inside some containers.
 const browser = await chromium.launch({
   executablePath: process.env.CHROMIUM_PATH || undefined,
   args: process.env.NO_SANDBOX === "1" ? ["--no-sandbox"] : [],
@@ -46,14 +46,20 @@ const context = await browser.newContext({
   viewport: { width: 1440, height: 900 },
   deviceScaleFactor: 2,
   colorScheme: "dark",
-  ...(RECORD ? { recordVideo: { dir: videoDir, size: { width: 1280, height: 720 } } } : {}),
 });
 
 let failed = false;
 for (const p of PAGES) {
   const page = await context.newPage();
-  await page.goto(new URL(p.path, BASE).toString(), { waitUntil: "networkidle" });
-  if (p.waitFor) await page.waitForSelector(p.waitFor, { timeout: 15000 });
+  try {
+    await page.goto(p.url, { waitUntil: "networkidle" });
+  } catch (err) {
+    console.error(`NAV FAIL on ${p.name}: ${err.message}`);
+    failed = true;
+    await page.close();
+    continue;
+  }
+  if (p.wait) await page.waitForTimeout(p.wait);
 
   const text = (await page.evaluate(() => document.body.innerText)) + "\n" + (await page.title());
   const hits = FORBIDDEN.filter((f) => f.re.test(text)).map((f) => f.label);
@@ -72,19 +78,4 @@ for (const p of PAGES) {
 
 await context.close();
 await browser.close();
-
-if (RECORD && !failed) {
-  const vids = fs.readdirSync(videoDir).filter((f) => f.endsWith(".webm")).sort();
-  if (vids.length) {
-    const src = path.join(videoDir, vids[vids.length - 1]);
-    const dst = path.join(OUT, "demo.gif");
-    const r = spawnSync(
-      "ffmpeg",
-      ["-y", "-i", src, "-vf", "fps=10,scale=960:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse", dst],
-      { stdio: "inherit" },
-    );
-    if (r.status === 0) console.log(`saved ${dst}`);
-  }
-}
-
 process.exit(failed ? 1 : 0);

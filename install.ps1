@@ -1,7 +1,7 @@
 #Requires -Version 5.1
 <#
 .SYNOPSIS
-    Windows installer for nethermind via Docker Desktop.
+    Windows installer for netara via Docker Desktop.
 #>
 param(
     [switch]$SkipStart
@@ -9,7 +9,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-Write-Host "=== Installing nethermind ===" -ForegroundColor Cyan
+Write-Host "=== Installing netara ===" -ForegroundColor Cyan
 
 if (-not (Get-Command docker -ErrorAction SilentlyContinue)) {
     Write-Error "Docker Desktop is required but not found. Install it from https://www.docker.com/products/docker-desktop/"
@@ -29,9 +29,9 @@ if (-not (Test-Path $envFile)) {
 $composeCmd = if (Get-Command "docker" -ErrorAction SilentlyContinue) { "docker compose" } else { "docker-compose" }
 
 if (-not $SkipStart) {
-    Write-Host "Building and starting nethermind on port 3000..." -ForegroundColor Green
+    Write-Host "Building and starting netara on port 3000..." -ForegroundColor Green
     Invoke-Expression "$composeCmd up --build -d"
-    Write-Host "nethermind installed. Access: http://localhost:3000" -ForegroundColor Green
+    Write-Host "netara installed. Access: http://localhost:3000" -ForegroundColor Green
 } else {
     Write-Host "Skipped start. Run '$composeCmd up --build -d' when ready." -ForegroundColor Yellow
 }

@@ -1,6 +1,6 @@
 # Changelog
 
-All notable changes to NetCore. Format follows [Keep a Changelog](https://keepachangelog.com/);
+All notable changes to netara. Format follows [Keep a Changelog](https://keepachangelog.com/);
 this project uses [Semantic Versioning](https://semver.org/).
 
 ## [1.1.0] - 2026-10-09
@@ -18,7 +18,7 @@ this project uses [Semantic Versioning](https://semver.org/).
   `UnboundLocalError: cannot access local variable 're'`. Caught by ruff's `F823`.
 - **Syntax errors in both CLI entry points** — `routers/chat.py` had a docstring indented
   eight spaces inside a four-space function; `scripts/cli.py` had a string literal split
-  by real newlines; `scripts/nethermind.py` read a module global before its `global`
+  by real newlines; `scripts/netara.py` read a module global before its `global`
   declaration. Each one made the tree uncompilable.
 - **The containerised stack never worked.** The "production" frontend image ran
   `npm run dev` — a *development* server shipped as the artifact, as root — and

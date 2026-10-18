@@ -15,7 +15,7 @@ export default function ChatPage() {
   const [sessionId] = useState(() => generateSessionId())
   const [messages, setMessages] = useState<ChatMessage[]>([{
     role: 'assistant',
-    content: "Hello! I'm **Nethermind**, your AI network engineer assistant. I can help you manage your network switches, pull configurations, check device health, and more.\n\nTry asking me:\n- \"Show me all my switches\"\n- \"Pull the latest config from switch 1\"\n- \"Check the health of all my devices\"\n- \"Run a security audit on switch 1\"\n- \"What's the network dashboard look like?\""
+    content: "Hello! I'm **netara**, your AI network engineer assistant. I can help you manage your network switches, pull configurations, check device health, and more.\n\nTry asking me:\n- \"Show me all my switches\"\n- \"Pull the latest config from switch 1\"\n- \"Check the health of all my devices\"\n- \"Run a security audit on switch 1\"\n- \"What's the network dashboard look like?\""
   }])
   const [input, setInput] = useState('')
   const [streaming, setStreaming] = useState(false)
@@ -90,7 +90,7 @@ export default function ChatPage() {
             <div className="absolute -top-0.5 -right-0.5 w-3 h-3 bg-green-400 rounded-full border-2 border-surface-2 pulse-dot" />
           </div>
           <div>
-            <h1 className="text-xl font-bold text-white tracking-tight">Nethermind AI</h1>
+            <h1 className="text-xl font-bold text-white tracking-tight">netara AI</h1>
             <p className="text-sm text-slate-500">Network engineer assistant powered by GPT-4</p>
           </div>
         </div>
@@ -152,7 +152,7 @@ export default function ChatPage() {
             <textarea
               className="input resize-none min-h-[48px] max-h-32 pr-12"
               rows={1}
-              placeholder="Ask Nethermind about your network..."
+              placeholder="Ask netara about your network..."
               value={input}
               onChange={e => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
